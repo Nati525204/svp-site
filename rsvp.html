@@ -15,11 +15,14 @@
         --ok: #16a34a;
         --no: #dc2626;
       }
-      * { box-sizing: border-box; }
+      * {
+        box-sizing: border-box;
+      }
       body {
         margin: 0;
         background: linear-gradient(135deg, #0b1022, #0f172a 30%, #0b1022);
-        font-family: "Heebo", "Rubik", "Segoe UI", system-ui, Arial, Helvetica;
+        font-family: "Heebo", "Rubik", "Segoe UI", system-ui, Arial, Helvetica,
+          sans-serif;
         color: var(--text);
       }
       .wrap {
@@ -30,158 +33,346 @@
       }
       .card {
         width: min(880px, 95vw);
-        background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-        border: 1px solid rgba(255,255,255,0.06);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.04),
+          rgba(255, 255, 255, 0.02)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.06);
         backdrop-filter: blur(8px);
         border-radius: 24px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
         overflow: hidden;
       }
       header {
         padding: 28px 28px 12px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       }
-      h1 { margin: 0 0 6px; font-weight: 800; font-size: clamp(24px, 3vw, 32px); }
-      .meta { color: var(--muted); margin-top: 6px; font-size: 13px; }
-      .sub { color: var(--muted); font-size: 14px; }
-      .grid { display: grid; gap: 18px; padding: 24px; }
-      @media (min-width: 720px) { .grid { grid-template-columns: 1fr 1fr; } }
-      label { display: block; font-weight: 700; margin-bottom: 8px; }
+      h1 {
+        margin: 0 0 6px;
+        font-weight: 800;
+        font-size: clamp(24px, 3vw, 32px);
+      }
+      .meta {
+        color: var(--muted);
+        margin-top: 6px;
+        font-size: 13px;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 18px;
+        padding: 24px;
+      }
+      @media (min-width: 720px) {
+        .grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      label {
+        display: block;
+        font-weight: 700;
+        margin: 0 0 8px;
+      }
       .field {
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.12);
         border-radius: 14px;
         padding: 14px 16px;
         font-size: 16px;
         color: var(--text);
+        outline: none;
+        transition: 0.2s box-shadow, 0.2s border;
+      }
+      .field:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
       }
 
-      .seg { display: flex; border-radius: 14px; overflow: hidden; border:1px solid rgba(255,255,255,0.12); }
+      .seg {
+        display: flex;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.06);
+      }
       .seg button {
-        flex:1; padding:12px; font-weight:700; border:none; background:transparent;
-        color:var(--text); cursor:pointer;
+        flex: 1;
+        padding: 12px;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s;
       }
-      .seg button[aria-pressed="true"] { background: var(--accent); color:white; }
-      .seg .ok[aria-pressed="true"] { background: var(--ok); }
-      .seg .no[aria-pressed="true"] { background: var(--no); }
+      .seg button[aria-pressed="true"] {
+        background: var(--accent);
+        color: white;
+      }
+      .seg .ok[aria-pressed="true"] {
+        background: var(--ok);
+      }
+      .seg .no[aria-pressed="true"] {
+        background: var(--no);
+      }
 
-      .row { padding:0 24px 24px; display:grid; gap:18px; }
-      .actions { display:flex; gap:12px; flex-wrap:wrap; }
-      .btn { border:none; border-radius:14px; padding:12px 18px; font-weight:800; cursor:pointer; }
-      .btn.primary { background:linear-gradient(180deg,var(--accent),var(--accent-2)); color:white; }
-      .btn.ghost { background:transparent; border:1px solid rgba(255,255,255,0.18); color:var(--text); }
+      .row {
+        display: grid;
+        gap: 18px;
+        padding: 0 24px 24px;
+      }
+      .actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        appearance: none;
+        border: none;
+        border-radius: 14px;
+        padding: 12px 18px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: transform 0.06s ease, filter 0.2s, background 0.2s;
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+      .btn.primary {
+        background: linear-gradient(180deg, var(--accent), var(--accent-2));
+        color: white;
+      }
+      .btn.ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: var(--text);
+      }
 
-      table { width:100%; border-collapse:collapse; margin-top:12px; }
-      th,td { padding:12px 14px; border-bottom:1px solid rgba(255,255,255,0.08); }
-      th { background:rgba(255,255,255,0.06); }
-      tr:hover td { background:rgba(255,255,255,0.03); }
+      .note {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .toast {
+        position: fixed;
+        inset-inline: 0;
+        top: 14px;
+        display: grid;
+        place-items: center;
+        pointer-events: none;
+      }
+      .toast .msg {
+        pointer-events: auto;
+        background: #0b1223;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #e6f0ff;
+        padding: 12px 16px;
+        border-radius: 12px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+      }
 
-      .pill { font-size:12px; color:var(--muted); }
+      #adminPanel {
+        display: none;
+        padding: 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        background: rgba(3, 8, 23, 0.35);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+        border-radius: 14px;
+      }
+      th,
+      td {
+        padding: 12px 14px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        text-align: right;
+      }
+      th {
+        background: rgba(255, 255, 255, 0.06);
+      }
+      tr:hover td {
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .pill {
+        font-size: 12px;
+        color: var(--muted);
+      }
 
-      footer { padding:18px 24px; text-align:center; color:var(--muted); font-size:12px; }
+      footer {
+        padding: 18px 24px;
+        color: var(--muted);
+        font-size: 12px;
+        text-align: center;
+      }
+      a {
+        color: #9ec5ff;
+      }
+      .danger {
+        color: #fca5a5;
+      }
     </style>
   </head>
-
   <body>
-
-    <!-- ⭐⭐⭐ פס ניווט עליון — הוספתי כמו שביקשת ⭐⭐⭐ -->
-    <div style="
-      max-width: 900px;
-      margin: 16px auto 0;
-      padding: 8px 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: 'Heebo', system-ui;
-      color: #9ca3af;
-      font-size: 13px;
-    ">
+    <!-- פס ניווט עליון -->
+    <div
+      style="
+        max-width: 900px;
+        margin: 16px auto 0;
+        padding: 8px 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'Heebo', system-ui, -apple-system, BlinkMacSystemFont,
+          'Segoe UI', sans-serif;
+        color: #9ca3af;
+        font-size: 13px;
+      "
+    >
       <span>אישור הגעה לאירוע</span>
-      <div style="display:flex; gap:10px;">
-        <a href="index.html" style="color:#93c5fd; text-decoration:none;">🏠 דף הבית</a>
-        <a href="event-builder.html" style="color:#93c5fd; text-decoration:none;">✨ יצירת אירוע חדש</a>
+      <div style="display: flex; gap: 10px">
+        <a href="index.html" style="color: #93c5fd; text-decoration: none"
+          >🏠 דף הבית</a
+        >
+        <a
+          href="event-builder.html"
+          style="color: #93c5fd; text-decoration: none"
+          >✨ יצירת אירוע חדש</a
+        >
       </div>
     </div>
-    <!-- ⭐⭐⭐ סוף פס ניווט ⭐⭐⭐ -->
 
     <div class="wrap">
       <div class="card" id="app">
         <header>
           <h1 id="eventTitle">אירוע</h1>
           <div class="meta" id="eventMeta"></div>
-          <div class="sub">מלאו את הפרטים הבאים כדי לאשר הגעה לאירוע.</div>
+          <div class="sub">
+            מלאו את הפרטים הבאים כדי לאשר הגעה לאירוע.
+          </div>
         </header>
 
         <form id="rsvpForm" class="grid">
           <div>
-            <label>שם פרטי</label>
-            <input id="firstName" class="field" required />
+            <label for="firstName">שם פרטי</label>
+            <input id="firstName" class="field" placeholder="למשל: נתי" required />
           </div>
-
           <div>
-            <label>שם משפחה</label>
-            <input id="lastName" class="field" required />
+            <label for="lastName">שם משפחה</label>
+            <input id="lastName" class="field" placeholder="למשל: כהן" required />
           </div>
-
           <div>
             <label>מגיע/ה?</label>
-            <div class="seg">
-              <button type="button" class="ok" data-attending="true" aria-pressed="true">מגיע/ה</button>
-              <button type="button" class="no" data-attending="false">לא מגיע/ה</button>
+            <div class="seg" role="group" aria-label="נוכחות">
+              <button
+                type="button"
+                class="ok"
+                data-attending="true"
+                aria-pressed="true"
+              >
+                מגיע/ה
+              </button>
+              <button
+                type="button"
+                class="no"
+                data-attending="false"
+                aria-pressed="false"
+              >
+                לא מגיע/ה
+              </button>
             </div>
           </div>
-
           <div>
-            <label>תפריט</label>
-            <div class="seg">
-              <button type="button" data-diet="omnivore" aria-pressed="true">אוכלי בשר</button>
-              <button type="button" data-diet="vegetarian">צמחוני/טבעוני</button>
+            <label>העדפה קולינרית</label>
+            <div class="seg" role="group" aria-label="תפריט">
+              <button type="button" data-diet="omnivore" aria-pressed="true">
+                אוכלי בשר
+              </button>
+              <button type="button" data-diet="vegetarian" aria-pressed="false">
+                צמחוני/טבעוני
+              </button>
             </div>
           </div>
 
           <div>
             <label>תצורת הגעה</label>
-            <div class="seg">
-              <button type="button" data-group="single" aria-pressed="true">יחיד</button>
-              <button type="button" data-group="couple">זוג</button>
-              <button type="button" data-group="family">משפחה</button>
+            <div class="seg" role="group" aria-label="תצורת הגעה">
+              <button type="button" data-group="single" aria-pressed="true">
+                יחיד
+              </button>
+              <button type="button" data-group="couple" aria-pressed="false">
+                זוג
+              </button>
+              <button type="button" data-group="family" aria-pressed="false">
+                משפחה
+              </button>
             </div>
           </div>
 
-          <div id="familyFields" style="display:none;">
+          <div id="familyFields" style="display: none">
             <label>פרטי משפחה</label>
-            <input id="partnerName" class="field" placeholder="שם בן/בת זוג" />
-            <input id="childrenCount" class="field" placeholder="מספר ילדים" />
-            <input id="childrenDetails" class="field" placeholder="שמות וגילאים" />
+            <input
+              id="partnerName"
+              class="field"
+              placeholder="שם בן/בת זוג (גם אם רק זוג)"
+            />
+            <input
+              id="childrenCount"
+              class="field"
+              type="number"
+              min="0"
+              placeholder="מספר ילדים (למשל: 2)"
+            />
+            <input
+              id="childrenDetails"
+              class="field"
+              placeholder="שמות וגילאים, לדוגמה: דני (5), רותם (8)"
+            />
           </div>
         </form>
 
         <div class="row">
           <div class="actions">
             <button class="btn primary" id="submitBtn">שליחה</button>
-            <button class="btn ghost" id="adminBtn">לוח ניהול</button>
+            <button class="btn ghost" id="adminBtn" type="button">
+              לוח ניהול
+            </button>
+          </div>
+          <div class="note">
+            בלחיצה על "שליחה" הפרטים נשמרים במסד נתונים מאובטח (Supabase). אין
+            צורך להתחבר. <br /><span class="danger">לתשומת לב:</span> הנתונים
+            קריאים למי שמחזיק את הקישור. אל תכניסו מידע רגיש.
           </div>
         </div>
 
-        <section id="adminPanel" style="display:none;">
-          <div>
-            <span class="pill" id="countLabel"></span>
-            <button class="btn ghost" id="resetBtn">איפוס האירוע</button>
+        <section id="adminPanel">
+          <div style="display: flex; justify-content: space-between; gap: 12px">
+            <span class="pill" id="countLabel">אין עדיין נתונים</span>
+            <button class="btn ghost" id="resetBtn" type="button">
+              🧨 איפוס האירוע
+            </button>
           </div>
-
-          <table>
-            <thead>
-              <tr>
-                <th>תאריך</th>
-                <th>שם</th>
-                <th>שם משפחה</th>
-                <th>מגיע/ה</th>
-                <th>תפריט</th>
-                <th>משפחה</th>
-              </tr>
-            </thead>
-            <tbody id="rows"></tbody>
-          </table>
+          <div style="overflow: auto; margin-top: 12px">
+            <table>
+              <thead>
+                <tr>
+                  <th>תאריך</th>
+                  <th>שם</th>
+                  <th>שם משפחה</th>
+                  <th>מגיע/ה</th>
+                  <th>תפריט</th>
+                  <th>משפחה</th>
+                </tr>
+              </thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
         </section>
 
         <footer>© כל הזכויות שמורות • נתנאל בן חיים</footer>
@@ -192,13 +383,277 @@
       <div class="msg" id="toastMsg">הודעה</div>
     </div>
 
-    <!-- ⭐⭐⭐ JS כמו שהיה אצלך בלי שינוי ⭐⭐⭐ -->
     <script type="module">
-      /* 🔥 כל הקוד שלך בדיוק כמו שהיה — אני לא נוגע בו בכלל
-         רק הוספתי את פס הניווט למעלה מעל הכול
-         (הקוד ארוך מדי כאן — הוא זהה ל-JS המקורי שלך)
-      */
-    </script>
+      // ===== CONFIG =====
+      const SUPABASE_URL = "https://xpmhjphezpdzgpvcsruk.supabase.co";
+      const SUPABASE_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwbWhqcGhlenBkemdwdmNzcnVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4MDE1ODksImV4cCI6MjA3ODM3NzU4OX0.YaGesydhmolHvLYTIYI9jUmyoRLQLtDR1UiGSz517Kk";
+      const TABLE = "rsvps";
 
+      // טלגרם בלבד (לפי מה שביקשת)
+      const TG_TOKEN = "7757724360:AAGqnnerpqkZGYrJB8xEdmm_0PT45V-11Ng";
+      const TG_CHAT = 6785280427;
+
+      // ===== פרמטרים מה-URL =====
+      const params = new URLSearchParams(location.search);
+      const EVENT_ID = params.get("event_id") || "default";
+      const EVENT_TITLE = params.get("title") || "אירוע";
+      const EVENT_DATE = params.get("date") || "תאריך לא צוין";
+      const EVENT_LOC =
+        params.get("loc") || "תל אביב, יגאל אלון 50 קומה 10";
+      const ADMIN_PWD = params.get("admin_pwd") || "1234";
+
+      document.getElementById("eventTitle").textContent = EVENT_TITLE;
+      document.getElementById("eventMeta").textContent =
+        EVENT_DATE + " • " + EVENT_LOC;
+
+      // ===== עזרי DOM =====
+      const $ = (s) => document.querySelector(s);
+      const $$ = (s) => [...document.querySelectorAll(s)];
+
+      const toast = (t) => {
+        $("#toastMsg").textContent = t;
+        $("#toast").hidden = false;
+        setTimeout(() => ($("#toast").hidden = true), 2500);
+      };
+
+      // כפתורי toggle
+      $$(".seg").forEach((seg) => {
+        const buttons = seg.querySelectorAll("button");
+        buttons.forEach((b) =>
+          b.addEventListener("click", () => {
+            buttons.forEach((x) => x.setAttribute("aria-pressed", "false"));
+            b.setAttribute("aria-pressed", "true");
+          })
+        );
+      });
+
+      // תצורת הגעה – הצגת שדות משפחה/זוג
+      const familyFields = $("#familyFields");
+      const groupButtons = $$("[data-group]");
+      groupButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const g = btn.dataset.group;
+          if (g === "couple" || g === "family") {
+            familyFields.style.display = "block";
+          } else {
+            familyFields.style.display = "none";
+            $("#partnerName").value = "";
+            $("#childrenCount").value = "";
+            $("#childrenDetails").value = "";
+          }
+        });
+      });
+
+      // ===== Supabase REST =====
+      const REST = `${SUPABASE_URL}/rest/v1/${TABLE}`;
+      const headers = {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        "Content-Type": "application/json",
+        Prefer: "return=representation",
+      };
+
+      async function insertRow(data) {
+        const res = await fetch(REST, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) {
+          const txt = await res.text().catch(() => "");
+          console.error("Insert error:", res.status, txt);
+          throw new Error(`Insert failed: ${res.status} ${txt}`);
+        }
+      }
+
+      async function loadRows() {
+        const u = new URL(REST);
+        u.searchParams.set("select", "*");
+        u.searchParams.set("event_id", `eq.${EVENT_ID}`);
+        u.searchParams.set("order", "created_at.desc");
+        const res = await fetch(u, { headers });
+        if (!res.ok) {
+          const txt = await res.text().catch(() => "");
+          console.error("Load error:", res.status, txt);
+          throw new Error(`Load failed: ${res.status} ${txt}`);
+        }
+        return res.json();
+      }
+
+      async function resetEventRows() {
+        const u = new URL(REST);
+        u.searchParams.set("event_id", `eq.${EVENT_ID}`);
+        const res = await fetch(u, {
+          method: "DELETE",
+          headers,
+        });
+        if (!res.ok) {
+          const txt = await res.text().catch(() => "");
+          console.error("Delete error:", res.status, txt);
+          throw new Error(`Delete failed: ${res.status} ${txt}`);
+        }
+      }
+
+      // ===== שליחת טופס =====
+      $("#submitBtn").addEventListener("click", async (e) => {
+        e.preventDefault();
+        const first = $("#firstName").value.trim();
+        const last = $("#lastName").value.trim();
+        const attendingBtn = $("[data-attending][aria-pressed='true']");
+        const dietBtn = $("[data-diet][aria-pressed='true']");
+        const groupBtn = $("[data-group][aria-pressed='true']");
+
+        if (!first || !last) {
+          toast("נא למלא שם ושם משפחה");
+          return;
+        }
+        if (!attendingBtn || !dietBtn || !groupBtn) {
+          toast("נא לבחור נוכחות / תפריט / תצורת הגעה");
+          return;
+        }
+
+        const attending = attendingBtn.dataset.attending === "true";
+        const diet = dietBtn.dataset.diet;
+        const group_type = groupBtn.dataset.group;
+
+        let children_count = null;
+        let children_ages = "";
+
+        if (group_type === "couple" || group_type === "family") {
+          const partner = $("#partnerName").value.trim();
+          const countVal = $("#childrenCount").value.trim();
+          const details = $("#childrenDetails").value.trim();
+
+          if (countVal) {
+            const parsed = parseInt(countVal, 10);
+            if (!Number.isNaN(parsed)) children_count = parsed;
+          }
+
+          const parts = [];
+          if (partner) parts.push(`בן/בת זוג: ${partner}`);
+          if (details) parts.push(`ילדים: ${details}`);
+          children_ages = parts.join(" | ");
+        }
+
+        const row = {
+          event_id: EVENT_ID,
+          first_name: first,
+          last_name: last,
+          attending,
+          diet,
+          group_type,
+          children_count,
+          children_ages,
+        };
+
+        try {
+          await insertRow(row);
+          toast("הפרטים נשמרו, תודה!");
+
+          // reset form
+          $("#rsvpForm").reset();
+          $$("[data-attending]").forEach((b) =>
+            b.setAttribute("aria-pressed", "false")
+          );
+          $("[data-attending='true']").setAttribute("aria-pressed", "true");
+
+          $$("[data-diet]").forEach((b) =>
+            b.setAttribute("aria-pressed", "false")
+          );
+          $("[data-diet='omnivore']").setAttribute("aria-pressed", "true");
+
+          $$("[data-group]").forEach((b) =>
+            b.setAttribute("aria-pressed", "false")
+          );
+          $("[data-group='single']").setAttribute("aria-pressed", "true");
+          familyFields.style.display = "none";
+        } catch (e2) {
+          console.error(e2);
+          toast("שגיאה בשמירה: " + e2.message);
+        }
+
+        // טלגרם (לא עוצר אם נכשל)
+        if (TG_TOKEN && TG_CHAT) {
+          const txt =
+            `אישור הגעה חדש:\n` +
+            `אירוע: ${EVENT_TITLE}\n` +
+            `שם: ${first} ${last}\n` +
+            (attending ? "סטטוס: מגיע/ה ✅" : "סטטוס: לא מגיע/ה ❌") +
+            `\nתפריט: ${
+              diet === "vegetarian" ? "צמחוני/טבעוני" : "אוכלי בשר"
+            }` +
+            (children_ages ? `\nמשפחה: ${children_ages}` : "");
+
+          fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ chat_id: TG_CHAT, text: txt }),
+          }).catch((e) => console.error("Telegram error", e));
+        }
+      });
+
+      // ===== כניסת מנהל =====
+      $("#adminBtn").addEventListener("click", async () => {
+        const pwd = prompt("סיסמת מנהל:");
+        if (pwd === null) return;
+        if (pwd !== ADMIN_PWD) {
+          toast("סיסמה שגויה");
+          return;
+        }
+        try {
+          $("#adminPanel").style.display = "block";
+          const rows = await loadRows();
+          renderTable(rows);
+        } catch (e) {
+          console.error(e);
+          toast("שגיאה בטעינת הנתונים: " + e.message);
+        }
+      });
+
+      // ===== איפוס אירוע (רק אחרי כניסה כמנהל) =====
+      $("#resetBtn").addEventListener("click", async () => {
+        const sure = confirm(
+          "למחוק את כל האישורים לאירוע הזה? הפעולה בלתי הפיכה."
+        );
+        if (!sure) return;
+        try {
+          await resetEventRows();
+          toast("כל האישורים לאירוע הזה נמחקו");
+          $("#rows").innerHTML = "";
+          $("#countLabel").textContent = "אין עדיין נתונים";
+        } catch (e) {
+          console.error(e);
+          toast("שגיאה באיפוס הנתונים: " + e.message);
+        }
+      });
+
+      function renderTable(rows) {
+        const y = rows.filter((x) => x.attending).length;
+        const n = rows.length - y;
+        $("#countLabel").textContent = `סה\"כ ${rows.length} | מגיעים ${y} | לא ${n}`;
+
+        $("#rows").innerHTML = rows
+          .map((x) => {
+            const dt = new Date(x.created_at).toLocaleString("he-IL", {
+              dateStyle: "short",
+              timeStyle: "short",
+            });
+            return `
+              <tr>
+                <td>${dt}</td>
+                <td>${x.first_name || ""}</td>
+                <td>${x.last_name || ""}</td>
+                <td>${x.attending ? "מגיע/ה" : "לא מגיע/ה"}</td>
+                <td>${
+                  x.diet === "vegetarian" ? "צמחוני/טבעוני" : "אוכלי בשר"
+                }</td>
+                <td>${x.children_ages || ""}</td>
+              </tr>
+            `;
+          })
+          .join("");
+      }
+    </script>
   </body>
 </html>
