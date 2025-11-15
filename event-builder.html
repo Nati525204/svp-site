@@ -1,91 +1,237 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>יצירת אירוע חדש</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>יצירת אירוע חדש</title>
 
-  <style>
-    body {
-      background: #0f172a;
-      color: white;
-      font-family: "Heebo", sans-serif;
-      padding: 24px;
-      max-width: 600px;
-      margin: auto;
-    }
-    input, button {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 10px;
-      border: none;
-      font-size: 16px;
-    }
-    input {
-      background: #1e293b;
-      color: white;
-    }
-    button {
-      background: #3b82f6;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .box {
-      background: #1e293b;
-      padding: 18px;
-      margin-top: 20px;
-      border-radius: 12px;
-    }
-    small { color:#9ca3af; }
-  </style>
-</head>
-
-<body>
-  <h1>יצירת אירוע חדש 🎉</h1>
-
-  <label>שם האירוע</label>
-  <input id="title" placeholder="למשל: ערב בשרים" />
-
-  <label>תאריך</label>
-  <input id="date" placeholder="18.11.2025" />
-
-  <label>מיקום</label>
-  <input id="loc" placeholder="תל אביב, יגאל אלון 50 קומה 10" />
-
-  <label>סיסמת מנהל</label>
-  <input id="admin" placeholder="בחר סיסמה (רק לך)" />
-
-  <button id="make">צור אירוע</button>
-
-  <div id="output" class="box" style="display:none"></div>
-
-  <script>
-    document.getElementById("make").addEventListener("click", () => {
-      const title = document.getElementById("title").value.trim();
-      const date = document.getElementById("date").value.trim();
-      const loc = document.getElementById("loc").value.trim() || "תל אביב, יגאל אלון 50 קומה 10";
-      const admin = document.getElementById("admin").value.trim();
-
-      if (!title || !date || !admin) {
-        alert("מלא את כל השדות (שם אירוע, תאריך, סיסמה)");
-        return;
+    <style>
+      body {
+        min-height: 100vh;
+        margin: 0;
+        padding: 24px 18px 32px;
+        background: radial-gradient(circle at top, #1d2a4a, #020617 55%, #000);
+        font-family: "Heebo", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        color: #e5e7eb;
+        display: flex;
+        justify-content: center;
       }
 
-      const event_id = crypto.randomUUID();
+      .wrap {
+        width: min(720px, 100%);
+        background: rgba(15, 23, 42, 0.96);
+        border-radius: 24px;
+        padding: 22px 20px 24px;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      }
 
-      const link = `rsvp.html?event_id=${event_id}&title=${encodeURIComponent(title)}&date=${encodeURIComponent(date)}&loc=${encodeURIComponent(loc)}&admin_pwd=${encodeURIComponent(admin)}`;
+      h1 {
+        margin: 0 0 6px;
+        font-size: clamp(24px, 3vw, 30px);
+        font-weight: 800;
+      }
 
-      const box = document.getElementById("output");
-      box.style.display = "block";
-      box.innerHTML = `
-        <h3>הלינק שנוצר:</h3>
-        <input value="${link}" onclick="this.select()" readonly
-          style="width:100%;padding:10px;background:#0f172a;color:white;direction:ltr" />
-        <p>שלח את הלינק הזה למוזמנים. כדי לפתוח לוח ניהול – כנס ללינק, לחץ "לוח ניהול" והזן את הסיסמה שבחרת.</p>
-      `;
-    });
-  </script>
+      .sub {
+        color: #9ca3af;
+        font-size: 14px;
+        margin-bottom: 16px;
+      }
 
-</body>
+      label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 4px;
+        font-weight: 600;
+      }
+
+      input {
+        width: 100%;
+        padding: 11px 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: #020617;
+        color: #e5e7eb;
+        font-size: 15px;
+        margin-bottom: 12px;
+      }
+
+      input::placeholder {
+        color: #6b7280;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 4px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 700;
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: #f9fafb;
+        box-shadow: 0 12px 30px rgba(37, 99, 235, 0.5);
+        transition: transform 0.06s ease, box-shadow 0.15s ease;
+      }
+
+      button:active {
+        transform: translateY(1px);
+        box-shadow: none;
+      }
+
+      .box {
+        background: #020617;
+        border-radius: 16px;
+        padding: 16px 14px 14px;
+        margin-top: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        font-size: 14px;
+      }
+
+      .link-field {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .link-field input {
+        margin: 0;
+        flex: 1;
+        direction: ltr;
+        font-size: 13px;
+      }
+
+      .link-field button {
+        width: auto;
+        padding-inline: 14px;
+        box-shadow: none;
+        background: #10b981;
+        font-size: 13px;
+      }
+
+      .note {
+        color: #9ca3af;
+        font-size: 13px;
+        margin-top: 8px;
+      }
+
+      .top-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+        margin-bottom: 10px;
+        color: #9ca3af;
+      }
+
+      .top-nav a {
+        color: #93c5fd;
+        text-decoration: none;
+      }
+
+      .top-nav a:hover {
+        text-decoration: underline;
+      }
+
+      footer {
+        margin-top: 20px;
+        font-size: 12px;
+        color: #6b7280;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <div class="top-nav">
+        <span>🛠 יצירת אירוע</span>
+        <a href="index.html">חזרה לדף הבית</a>
+      </div>
+
+      <h1>יצירת אירוע חדש 🎉</h1>
+      <div class="sub">מלא כמה שדות וניצור עבורך לינק מוכן לשליחה.</div>
+
+      <label>שם האירוע</label>
+      <input id="title" placeholder="למשל: ערב בשרים" />
+
+      <label>תאריך</label>
+      <input id="date" placeholder="למשל: 18.11.2025" />
+
+      <label>מיקום</label>
+      <input id="loc" placeholder="תל אביב, יגאל אלון 50 קומה 10" />
+
+      <label>סיסמת מנהל</label>
+      <input id="admin" placeholder="בחר סיסמה (רק לך)" />
+
+      <button id="make">צור אירוע</button>
+
+      <div id="output" class="box" style="display: none"></div>
+
+      <footer>יוצר המערכת: נתנאל בן חיים • כל הזכויות שמורות ©</footer>
+    </div>
+
+    <script>
+      const makeBtn = document.getElementById("make");
+      const output = document.getElementById("output");
+
+      makeBtn.addEventListener("click", () => {
+        const title = document.getElementById("title").value.trim();
+        const date = document.getElementById("date").value.trim();
+        const loc =
+          document.getElementById("loc").value.trim() ||
+          "תל אביב, יגאל אלון 50 קומה 10";
+        const admin = document.getElementById("admin").value.trim();
+
+        if (!title || !date || !admin) {
+          alert("מלא את כל השדות (שם אירוע, תאריך, סיסמה)");
+          return;
+        }
+
+        const event_id = crypto.randomUUID();
+
+        // בסיס ה-URL של האתר בגיטהאב
+        const base =
+          location.origin + location.pathname.replace(/[^/]+$/, "");
+
+        const fullLink = `${base}rsvp.html?event_id=${event_id}&title=${encodeURIComponent(
+          title
+        )}&date=${encodeURIComponent(date)}&loc=${encodeURIComponent(
+          loc
+        )}&admin_pwd=${encodeURIComponent(admin)}`;
+
+        output.style.display = "block";
+        output.innerHTML = `
+          <h3>הלינק שנוצר:</h3>
+          <div class="link-field">
+            <input id="eventLink" value="${fullLink}" readonly onclick="this.select()" />
+            <button id="copyBtn">העתק</button>
+          </div>
+          <div class="note">
+            שלח את הלינק הזה למוזמנים. כדי לפתוח לוח ניהול, היכנס לאותו לינק, לחץ על
+            "לוח ניהול" והזן את סיסמת המנהל שבחרת.
+          </div>
+        `;
+
+        // כפתור העתקה
+        const copyBtn = document.getElementById("copyBtn");
+        copyBtn.addEventListener("click", async () => {
+          const inp = document.getElementById("eventLink");
+          inp.select();
+          try {
+            await navigator.clipboard.writeText(inp.value);
+            copyBtn.textContent = "הועתק ✔";
+            setTimeout(() => (copyBtn.textContent = "העתק"), 1500);
+          } catch {
+            // fallback
+            document.execCommand("copy");
+            copyBtn.textContent = "הועתק ✔";
+            setTimeout(() => (copyBtn.textContent = "העתק"), 1500);
+          }
+        });
+      });
+    </script>
+  </body>
 </html>
