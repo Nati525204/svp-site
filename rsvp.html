@@ -682,8 +682,15 @@
       });
 
       function exportToCsv(rows) {
+        // עוטף כל ערך ב-"..." ומכין אותו ל-CSV
+        const csvEscape = (value) => {
+          if (value == null) return "";
+          const s = String(value).replace(/"/g, '""');
+          return `"${s}"`;
+        };
+
         const header = [
-          "תאריך",
+          "תאריך ושעה",
           "שם",
           "שם משפחה",
           "טלפון",
@@ -691,22 +698,28 @@
           "תפריט",
           "משפחה",
         ];
-        const lines = [header.join(",")];
+
+        const lines = [header.map(csvEscape).join(",")];
 
         rows.forEach((x) => {
-          const dt = new Date(x.created_at).toLocaleString("he-IL", {
+          let dt = new Date(x.created_at).toLocaleString("he-IL", {
             dateStyle: "short",
             timeStyle: "short",
           });
+
+          // מוריד את הפסיק שבתוך התאריך (כדי לא לשבור עמודות)
+          dt = dt.replace(",", "");
+
           const row = [
             dt,
-            (x.first_name || "").replace(/,/g, " "),
-            (x.last_name || "").replace(/,/g, " "),
-            (x.phone || "").replace(/,/g, " "),
+            x.first_name || "",
+            x.last_name || "",
+            x.phone || "",
             x.attending ? "מגיע/ה" : "לא מגיע/ה",
             x.diet === "vegetarian" ? "צמחוני/טבעוני" : "אוכלי בשר",
-            (x.children_ages || "").replace(/,/g, " "),
-          ];
+            x.children_ages || "",
+          ].map(csvEscape);
+
           lines.push(row.join(","));
         });
 
