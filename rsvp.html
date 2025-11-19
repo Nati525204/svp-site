@@ -460,23 +460,41 @@
         );
       });
 
-      // תצורת הגעה – הצגת שדות משפחה/זוג
-      const familyFields = $("#familyFields");
-      const groupButtons = $$("[data-group]");
-      groupButtons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const g = btn.dataset.group;
-          if (g === "couple" || g === "family") {
-            familyFields.style.display = "block";
-          } else {
-            familyFields.style.display = "none";
-            $("#partnerName").value = "";
-            $("#childrenCount").value = "";
-            $("#childrenDetails").value = "";
-          }
-        });
-      });
+    // תצורת הגעה – הצגת שדות זוג / משפחה
+const familyFields = $("#familyFields");
+const groupButtons = $$("[data-group]");
+const partnerInput = $("#partnerName");
+const childrenCountInput = $("#childrenCount");
+const childrenDetailsInput = $("#childrenDetails");
 
+groupButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const g = btn.dataset.group;
+
+    if (g === "single") {
+      // יחיד – לא מציגים כלום
+      familyFields.style.display = "none";
+      partnerInput.value = "";
+      childrenCountInput.value = "";
+      childrenDetailsInput.value = "";
+    } else if (g === "couple") {
+      // זוג – רק בן/בת זוג
+      familyFields.style.display = "block";
+      partnerInput.style.display = "block";
+      childrenCountInput.style.display = "none";
+      childrenDetailsInput.style.display = "none";
+
+      childrenCountInput.value = "";
+      childrenDetailsInput.value = "";
+    } else if (g === "family") {
+      // משפחה – הכל
+      familyFields.style.display = "block";
+      partnerInput.style.display = "block";
+      childrenCountInput.style.display = "block";
+      childrenDetailsInput.style.display = "block";
+    }
+  });
+});
       // ===== Supabase REST =====
       const REST = `${SUPABASE_URL}/rest/v1/${TABLE}`;
       const headers = {
