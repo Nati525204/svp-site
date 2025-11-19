@@ -268,6 +268,15 @@
             <input id="lastName" class="field" placeholder="למשל: כהן" required />
           </div>
           <div>
+            <label for="phone">מספר טלפון</label>
+            <input
+              id="phone"
+              class="field"
+              placeholder="למשל: 050-1234567"
+              required
+            />
+          </div>
+          <div>
             <label>מגיע/ה?</label>
             <div class="seg" role="group" aria-label="נוכחות">
               <button
@@ -354,9 +363,14 @@
         <section id="adminPanel">
           <div style="display: flex; justify-content: space-between; gap: 12px">
             <span class="pill" id="countLabel">אין עדיין נתונים</span>
-            <button class="btn ghost" id="resetBtn" type="button">
-              🧨 איפוס האירוע
-            </button>
+            <div style="display: flex; gap: 8px">
+              <button class="btn ghost" id="exportBtn" type="button">
+                ⬇️ ייצוא לאקסל
+              </button>
+              <button class="btn ghost" id="resetBtn" type="button">
+                🧨 איפוס האירוע
+              </button>
+            </div>
           </div>
           <div style="overflow: auto; margin-top: 12px">
             <table>
@@ -365,6 +379,7 @@
                   <th>תאריך</th>
                   <th>שם</th>
                   <th>שם משפחה</th>
+                  <th>טלפון</th>
                   <th>מגיע/ה</th>
                   <th>תפריט</th>
                   <th>משפחה</th>
@@ -376,23 +391,23 @@
         </section>
 
         <footer>
-  © כל הזכויות שמורות • נתנאל בן חיים
-  <div
-    style="
-      margin-top: 4px;
-      font-size: 11px;
-      color: #9ca3af;
-    "
-  >
-    לתמיכה ופניות: 
-    <a
-      href="mailto:suppornbh@gmail.com"
-      style="color: #93c5fd; text-decoration: none;"
-    >
-      suppornbh@gmail.com
-    </a>
-  </div>
-</footer>
+          © כל הזכויות שמורות • נתנאל בן חיים
+          <div
+            style="
+              margin-top: 4px;
+              font-size: 11px;
+              color: #9ca3af;
+            "
+          >
+            לתמיכה ופניות:
+            <a
+              href="mailto:suppornbh@gmail.com"
+              style="color: #93c5fd; text-decoration: none"
+            >
+              suppornbh@gmail.com
+            </a>
+          </div>
+        </footer>
       </div>
     </div>
 
@@ -407,7 +422,7 @@
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwbWhqcGhlenBkemdwdmNzcnVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4MDE1ODksImV4cCI6MjA3ODM3NzU4OX0.YaGesydhmolHvLYTIYI9jUmyoRLQLtDR1UiGSz517Kk";
       const TABLE = "rsvps";
 
-      // טלגרם בלבד (לפי מה שביקשת)
+      // טלגרם בלבד (כמו שהיה)
       const TG_TOKEN = "7757724360:AAGqnnerpqkZGYrJB8xEdmm_0PT45V-11Ng";
       const TG_CHAT = 6785280427;
 
@@ -512,17 +527,20 @@
         }
       }
 
+      let lastLoadedRows = [];
+
       // ===== שליחת טופס =====
       $("#submitBtn").addEventListener("click", async (e) => {
         e.preventDefault();
         const first = $("#firstName").value.trim();
         const last = $("#lastName").value.trim();
+        const phone = $("#phone").value.trim();
         const attendingBtn = $("[data-attending][aria-pressed='true']");
         const dietBtn = $("[data-diet][aria-pressed='true']");
         const groupBtn = $("[data-group][aria-pressed='true']");
 
-        if (!first || !last) {
-          toast("נא למלא שם ושם משפחה");
+        if (!first || !last || !phone) {
+          toast("נא למלא שם פרטי, שם משפחה ומספר טלפון");
           return;
         }
         if (!attendingBtn || !dietBtn || !groupBtn) {
@@ -557,6 +575,7 @@
           event_id: EVENT_ID,
           first_name: first,
           last_name: last,
+          phone,
           attending,
           diet,
           group_type,
@@ -596,6 +615,7 @@
             `אישור הגעה חדש:\n` +
             `אירוע: ${EVENT_TITLE}\n` +
             `שם: ${first} ${last}\n` +
+            `טלפון: ${phone}\n` +
             (attending ? "סטטוס: מגיע/ה ✅" : "סטטוס: לא מגיע/ה ❌") +
             `\nתפריט: ${
               diet === "vegetarian" ? "צמחוני/טבעוני" : "אוכלי בשר"
@@ -637,6 +657,7 @@
         try {
           await resetEventRows();
           toast("כל האישורים לאירוע הזה נמחקו");
+          lastLoadedRows = [];
           $("#rows").innerHTML = "";
           $("#countLabel").textContent = "אין עדיין נתונים";
         } catch (e) {
@@ -645,7 +666,66 @@
         }
       });
 
+      // ===== ייצוא לאקסל (CSV) =====
+      $("#exportBtn").addEventListener("click", () => {
+        if (!lastLoadedRows.length) {
+          toast("אין נתונים לייצוא – תיכנס קודם ללוח ניהול");
+          return;
+        }
+        try {
+          exportToCsv(lastLoadedRows);
+          toast("הקובץ ירד למחשב שלך");
+        } catch (e) {
+          console.error(e);
+          toast("שגיאה ביצירת הקובץ: " + e.message);
+        }
+      });
+
+      function exportToCsv(rows) {
+        const header = [
+          "תאריך",
+          "שם",
+          "שם משפחה",
+          "טלפון",
+          "מגיע/ה",
+          "תפריט",
+          "משפחה",
+        ];
+        const lines = [header.join(",")];
+
+        rows.forEach((x) => {
+          const dt = new Date(x.created_at).toLocaleString("he-IL", {
+            dateStyle: "short",
+            timeStyle: "short",
+          });
+          const row = [
+            dt,
+            (x.first_name || "").replace(/,/g, " "),
+            (x.last_name || "").replace(/,/g, " "),
+            (x.phone || "").replace(/,/g, " "),
+            x.attending ? "מגיע/ה" : "לא מגיע/ה",
+            x.diet === "vegetarian" ? "צמחוני/טבעוני" : "אוכלי בשר",
+            (x.children_ages || "").replace(/,/g, " "),
+          ];
+          lines.push(row.join(","));
+        });
+
+        const blob = new Blob(["\uFEFF" + lines.join("\n")], {
+          type: "text/csv;charset=utf-8;",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        const safeTitle = EVENT_TITLE.replace(/[^a-zA-Z0-9א-ת]+/g, "_");
+        a.download = `rsvp_${safeTitle}_${EVENT_ID}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
       function renderTable(rows) {
+        lastLoadedRows = rows;
         const y = rows.filter((x) => x.attending).length;
         const n = rows.length - y;
         $("#countLabel").textContent = `סה\"כ ${rows.length} | מגיעים ${y} | לא ${n}`;
@@ -661,6 +741,7 @@
                 <td>${dt}</td>
                 <td>${x.first_name || ""}</td>
                 <td>${x.last_name || ""}</td>
+                <td>${x.phone || ""}</td>
                 <td>${x.attending ? "מגיע/ה" : "לא מגיע/ה"}</td>
                 <td>${
                   x.diet === "vegetarian" ? "צמחוני/טבעוני" : "אוכלי בשר"
