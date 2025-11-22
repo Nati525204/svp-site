@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <title>אישור הגעה לאירוע</title>
+    <title>מערכת אישור הגעה לאירועים</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       body {
@@ -151,6 +151,48 @@
       a {
         color: #93c5fd;
       }
+
+      /* כרטיסי חבילות */
+      .packages {
+        margin-top: 22px;
+      }
+
+      .packages-grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      @media (min-width: 720px) {
+        .packages-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      .pkg {
+        border-radius: 16px;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        padding: 12px 14px;
+        font-size: 13px;
+      }
+
+      .pkg h3 {
+        margin: 0 0 4px;
+        font-size: 16px;
+      }
+
+      .pkg ul {
+        margin: 0;
+        padding-inline-start: 18px;
+        color: #9ca3af;
+      }
+
+      .pkg.pkg-pro {
+        border-color: rgba(59, 130, 246, 0.7);
+      }
+
+      .pkg.pkg-premium {
+        border-color: rgba(22, 163, 74, 0.8);
+      }
     </style>
   </head>
   <body>
@@ -196,6 +238,69 @@
           </div>
         </section>
       </div>
+
+      <!-- חבילות ומחירים -->
+      <section class="card packages">
+        <h2>💎 חבילות ומחירים</h2>
+        <p style="font-size: 14px; color: #9ca3af; margin-bottom: 10px">
+          התשלום הוא חד־פעמי לכל אירוע. האורחים לא משלמים כלום – רק בעל/ת
+          האירוע.
+        </p>
+
+        <div class="packages-grid">
+          <div class="pkg">
+            <h3>חבילה בסיסית – 49₪</h3>
+            <ul>
+              <li>טופס אישור הגעה מעוצב למובייל</li>
+              <li>שם האירוע, תאריך ומיקום מותאמים אישית</li>
+              <li>שליחת האישורים לטלגרם / מייל אחד</li>
+              <li>סטטוס מגיע / לא מגיע</li>
+            </ul>
+          </div>
+
+          <div class="pkg pkg-pro">
+            <h3>חבילה מתקדמת – 99₪</h3>
+            <ul>
+              <li>כל מה שבחבילה הבסיסית</li>
+              <li>חלוקה ליחיד / זוג / משפחה</li>
+              <li>פרטי בן/בת זוג וילדים (אם צריך)</li>
+              <li>לוח ניהול למארגן עם טבלה מסודרת</li>
+              <li>ייצוא לרשימת Excel בלחיצת כפתור</li>
+            </ul>
+          </div>
+
+          <div class="pkg pkg-premium">
+            <h3>חבילת פרימיום – 149₪</h3>
+            <ul>
+              <li>כל מה שבחבילה המתקדמת</li>
+              <li>התאמת טקסטים אישית לפי האירוע</li>
+              <li>עזרה בהגדרת הטופס + בדיקת תקינות</li>
+              <li>שינויים קטנים גם אחרי שהטופס כבר פתוח</li>
+            </ul>
+          </div>
+        </div>
+
+        <div
+          style="
+            margin-top: 14px;
+            font-size: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+          "
+        >
+          <span>להזמנות ושאלות:</span>
+          <a
+            href="https://wa.me/972584525204?text=היי,%20ראיתי%20את%20מערכת%20אישור%20ההגעה%20שלך%20ואני%20מעוניין/ת%20לפתוח%20אירוע"
+            style="color: #93c5fd; text-decoration: none; font-weight: 600"
+            >שליחת הודעה בוואטסאפ</a
+          >
+          <span style="font-size: 12px; color: #6b7280">
+            
+          </span>
+        </div>
+      </section>
 
       <footer>
         <span>יוצר המערכת: נתנאל בן חיים • כל הזכויות שמורות ©</span>
