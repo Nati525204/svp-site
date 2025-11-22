@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>InvitePro – חבילת פרימיום</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --bg1: #020617;
+        --accent: #3b82f6;
+        --gold: #fbbf24;
+        --gold2: #f59e0b;
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(circle at top, #1f2937, #020617 60%, #000);
+        font-family: "Heebo", system-ui, sans-serif;
+        color: var(--text);
+        display: flex;
+        justify-content: center;
+        padding: 24px 12px 32px;
+      }
+      .wrap {
+        width: min(960px, 100%);
+        background: radial-gradient(
+            circle at top,
+            rgba(251, 191, 36, 0.08),
+            transparent 55%
+          ),
+          #020617;
+        border-radius: 28px;
+        border: 1px solid rgba(251, 191, 36, 0.35);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8);
+        padding: 20px 20px 24px;
+      }
+      .top-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+      .top-nav a {
+        color: #93c5fd;
+        text-decoration: none;
+      }
+      header {
+        padding-bottom: 14px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+      }
+      h1 {
+        margin: 0 0 4px;
+        font-size: clamp(26px, 3.6vw, 34px);
+        font-weight: 900;
+        color: #fef9c3;
+      }
+      .tagline {
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        padding: 4px 12px;
+        border-radius: 999px;
+        background: rgba(23, 23, 23, 0.9);
+        border: 1px solid rgba(251, 191, 36, 0.9);
+        color: #facc15;
+        margin-bottom: 8px;
+      }
+      .layout {
+        display: grid;
+        gap: 18px;
+        padding-top: 16px;
+      }
+      @media (min-width: 820px) {
+        .layout {
+          grid-template-columns: 1.1fr 0.9fr;
+        }
+      }
+      .card {
+        background: radial-gradient(
+            circle at top,
+            rgba(15, 23, 42, 0.9),
+            #020617
+          );
+        border-radius: 22px;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        padding: 16px 16px 14px;
+      }
+      .card h2 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+      .card p {
+        margin: 0 0 8px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .price {
+        font-size: 26px;
+        font-weight: 900;
+        color: #facc15;
+        margin-bottom: 4px;
+      }
+      .price small {
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 400;
+      }
+      ul {
+        margin: 10px 0 0;
+        padding-inline-start: 18px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      li {
+        margin-bottom: 4px;
+      }
+      .cta-box {
+        margin-top: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .btn-main {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        padding: 11px 18px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, var(--gold), var(--gold2));
+        color: #111827;
+        border: none;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: 800;
+        cursor: pointer;
+        box-shadow: 0 14px 32px rgba(251, 191, 36, 0.55);
+        transition: transform 0.08s ease, filter 0.18s ease;
+      }
+      .btn-main:hover {
+        filter: brightness(1.05);
+      }
+      .btn-main:active {
+        transform: translateY(1px);
+        box-shadow: none;
+      }
+      .btn-ghost {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        padding: 9px 16px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: transparent;
+        color: var(--text);
+        font-size: 13px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        font-size: 11px;
+        margin-top: 10px;
+      }
+      .pill {
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(251, 191, 36, 0.6);
+        color: var(--muted);
+      }
+      .timeline {
+        margin-top: 10px;
+        font-size: 13px;
+      }
+      .timeline-step {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 6px;
+      }
+      .timeline-step span {
+        color: #fbbf24;
+        font-weight: 700;
+      }
+      footer {
+        margin-top: 20px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(148, 163, 184, 0.35);
+        font-size: 12px;
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      footer a {
+        color: #93c5fd;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <div class="top-nav">
+        <span>InvitePro • חבילת פרימיום</span>
+        <div style="display: flex; gap: 10px">
+          <a href="index.html">🏠 דף מערכת</a>
+          <a href="landing.html">📦 כל החבילות</a>
+          <a href="event-builder.html?tier=premium">✨ יצירת אירוע פרימיום</a>
+        </div>
+      </div>
+
+      <header>
+        <div class="badge">מיועד לחתונות ואירועי יוקרה</div>
+        <h1>חבילת פרימיום – InvitePro</h1>
+        <div class="tagline">
+          עיצוב יוקרתי, לוח ניהול מלא, טבלה מסודרת לאולם ותמיכה אישית עד האירוע.
+        </div>
+      </header>
+
+      <div class="layout">
+        <!-- צד שמאל – מה כולל -->
+        <section class="card">
+          <h2>מה כוללת חבילת פרימיום?</h2>
+
+          <div class="price">
+            149₪
+            <small>• תשלום חד־פעמי לכל אירוע</small>
+          </div>
+
+          <ul>
+            <li>דף הזמנה מעוצב בסגנון יוקרתי לחתונות ואירועים גדולים</li>
+            <li>הצגת שם האירוע, תאריך ומיקום בצורה ברורה ומכובדת</li>
+            <li>טופס מותאם לנייד – נראה מושלם בוואטסאפ</li>
+            <li>שמירת כל האישורים במסד נתונים מאובטח בענן</li>
+            <li>לוח ניהול מלא למארגן – צפייה בכל המוזמנים בטבלה מסודרת</li>
+            <li>ספירה חכמה: מגיעים / לא מגיעים / זוג / משפחה</li>
+            <li>ייצוא לקובץ אקסל מוכן לאולם / קייטרינג</li>
+            <li>התאמות טקסטים ועיצוב לפי סוג האירוע</li>
+          </ul>
+
+          <div class="cta-box">
+            <button
+              class="btn-main"
+              onclick="window.open('https://wa.me/972584525204?text=היי,%20אני%20מעוניין/ת%20בחבילת%20פרימיום%20של%20InvitePro', '_blank')"
+            >
+              💬 סגירת חבילת פרימיום בוואטסאפ
+            </button>
+
+            <a
+              class="btn-ghost"
+              href="event-builder.html?tier=premium"
+            >
+              ➜ המשך ליצירת אירוע לאחר תשלום
+            </a>
+          </div>
+
+          <div
+            style="margin-top: 12px; font-size: 12px; color: var(--muted)"
+          >
+            התשלום נעשה בביט / פייבוקס / העברה – בתיאום מול נתנאל. לאחר התשלום
+            מייצרים את האירוע ומשתפים אותך בלינק מוכן לשליחה לאורחים.
+          </div>
+        </section>
+
+        <!-- צד ימין – למי זה מתאים / איך זה עובד -->
+        <section class="card">
+          <h2>למי זה מתאים ואיך זה עובד?</h2>
+          <p>
+            חבילת פרימיום מיועדת למי שרוצה חוויה מלאה: גם הזמנה יוקרתית וגם
+            שליטה מלאה על כמות המוזמנים והנתונים לאולם.
+          </p>
+
+          <div class="pill-row">
+            <div class="pill">חתונות</div>
+            <div class="pill">בר / בת מצווה גדולים</div>
+            <div class="pill">אירועי יוקרה</div>
+            <div class="pill">אירועי חברה</div>
+          </div>
+
+          <div class="timeline">
+            <div class="timeline-step" style="margin-top: 10px">
+              <span>1.</span>
+              <div>פונים אל נתנאל בוואטסאפ וסוגרים חבילת פרימיום (149₪).</div>
+            </div>
+            <div class="timeline-step">
+              <span>2.</span>
+              <div>מעבירים פרטי אירוע: שם האירוע, תאריך, מיקום + סיסמת מנהל.</div>
+            </div>
+            <div class="timeline-step">
+              <span>3.</span>
+              <div>נוצר עבורכם דף הזמנה יוקרתי + לוח ניהול אישי.</div>
+            </div>
+            <div class="timeline-step">
+              <span>4.</span>
+              <div>שולחים את הלינק לאורחים בוואטסאפ / SMS.</div>
+            </div>
+            <div class="timeline-step">
+              <span>5.</span>
+              <div>נכנסים ללוח הניהול, רואים הכול מסודר בטבלה ויכולים להוציא אקסל.</div>
+            </div>
+          </div>
+
+          <p style="margin-top: 12px; font-size: 13px; color: var(--muted)">
+            ניתן לשדרג מכל חבילה אחרת לחבילת פרימיום – בתשלום ההפרש בלבד.
+          </p>
+        </section>
+      </div>
+
+      <footer>
+        <span>InvitePro • Premium RSVP System</span>
+        <span>יוצר המערכת: Netanel Ben Haim</span>
+      </footer>
+    </div>
+  </body>
+</html>

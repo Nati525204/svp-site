@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>InvitePro – חבילות ומחירים</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(circle at top, #1d2a4a, #020617 55%, #000);
+        font-family: "Heebo", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        color: #e5e7eb;
+        display: flex;
+        justify-content: center;
+        padding: 24px 12px 32px;
+      }
+
+      .wrap {
+        width: min(960px, 100%);
+        background: rgba(15, 23, 42, 0.96);
+        border-radius: 26px;
+        padding: 22px 22px 26px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        box-shadow: 0 22px 70px rgba(0, 0, 0, 0.7);
+      }
+
+      .top-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+        color: #9ca3af;
+        margin-bottom: 12px;
+      }
+      .top-nav a {
+        color: #93c5fd;
+        text-decoration: none;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(26px, 3vw, 32px);
+        font-weight: 900;
+        color: #bfdbfe;
+      }
+      .sub {
+        margin-top: 6px;
+        color: #9ca3af;
+        font-size: 14px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 14px;
+      }
+      @media (min-width: 780px) {
+        .grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+      }
+
+      .card {
+        background: #020617;
+        border-radius: 20px;
+        padding: 14px 12px 14px;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 220px;
+      }
+      .card h2 {
+        font-size: 17px;
+        margin: 0 0 6px;
+      }
+      .price {
+        font-size: 20px;
+        font-weight: 800;
+        margin-bottom: 4px;
+      }
+      .desc {
+        font-size: 13px;
+        color: #9ca3af;
+        margin-bottom: 8px;
+      }
+      ul {
+        margin: 0 0 10px;
+        padding-inline-start: 18px;
+        font-size: 12px;
+        color: #9ca3af;
+      }
+      li {
+        margin-bottom: 3px;
+      }
+
+      .tag {
+        font-size: 11px;
+        color: #a5b4fc;
+        margin-bottom: 4px;
+      }
+
+      .btn {
+        width: 100%;
+        border-radius: 999px;
+        border: none;
+        padding: 8px 0;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 6px;
+        transition: transform 0.06s ease, box-shadow 0.15s ease,
+          filter 0.15s ease;
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+      .btn-main {
+        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        color: #f9fafb;
+        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.5);
+      }
+      .btn-ghost {
+        background: transparent;
+        color: #e5e7eb;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+      }
+      .card.basic {
+        border-color: rgba(59, 130, 246, 0.7);
+      }
+      .card.pro {
+        border-color: rgba(34, 197, 94, 0.8);
+      }
+      .card.premium {
+        border-color: rgba(251, 191, 36, 0.9);
+        box-shadow: 0 0 30px rgba(251, 191, 36, 0.2);
+      }
+
+      footer {
+        margin-top: 20px;
+        font-size: 12px;
+        color: #6b7280;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="top-nav">
+        <span>InvitePro • מערכת אישור הגעה לאירועים</span>
+        <div style="display: flex; gap: 10px">
+          <a href="index.html">🏠 דף מערכת</a>
+          <a href="event-builder.html">✨ יצירת אירוע</a>
+        </div>
+      </div>
+
+      <header>
+        <h1>חבילות InvitePro – 2025</h1>
+        <div class="sub">
+          בחר את החבילה שמתאימה לאירוע שלך. התשלום חד־פעמי לכל אירוע, האורחים
+          לא משלמים כלום.
+        </div>
+      </header>
+
+      <section class="grid">
+        <!-- חינם -->
+        <article class="card">
+          <div>
+            <div class="tag">כניסה לעולם InvitePro</div>
+            <h2>חבילת חינם</h2>
+            <div class="price">0₪</div>
+            <div class="desc">טופס בסיסי לאישור הגעה, מתאים לאירועים קטנים.</div>
+            <ul>
+              <li>טופס פשוט לאישור הגעה</li>
+              <li>שם אירוע + תאריך</li>
+              <li>מתאים לניסוי / דמו</li>
+            </ul>
+          </div>
+          <div>
+            <button
+              class="btn btn-main"
+              onclick="location.href='event-builder.html?tier=free'"
+            >
+              צור אירוע בחבילת חינם
+            </button>
+          </div>
+        </article>
+
+        <!-- בסיסי – 49 -->
+        <article class="card basic">
+          <div>
+            <div class="tag">החבילה הפשוטה</div>
+            <h2>חבילה בסיסית</h2>
+            <div class="price">49₪</div>
+            <div class="desc">
+              טופס מעוצב ומקצועי לאישור הגעה, מתאים לאירועים קטנים ובינוניים.
+            </div>
+            <ul>
+              <li>טופס מעוצב ומותאם לנייד</li>
+              <li>שם האירוע, תאריך ומיקום</li>
+              <li>ניהול אישורי הגעה בצורה נוחה</li>
+            </ul>
+          </div>
+          <div>
+            <button
+              class="btn btn-main"
+              onclick="location.href='basic.html'"
+            >
+              📦 פרטים על החבילה
+            </button>
+
+            <button
+              class="btn btn-ghost"
+              onclick="location.href='event-builder.html?tier=basic'"
+            >
+              צור אירוע בחבילה בסיסית
+            </button>
+          </div>
+        </article>
+
+        <!-- מתקדם – 99 -->
+        <article class="card pro">
+          <div>
+            <div class="tag">הכי משתלם</div>
+            <h2>חבילה מתקדמת</h2>
+            <div class="price">99₪</div>
+            <div class="desc">
+              כולל לוח ניהול מלא, ספירת מוזמנים וייצוא לאקסל.
+            </div>
+            <ul>
+              <li>לוח ניהול מלא למארגן האירוע</li>
+              <li>ספירת מגיעים / לא מגיעים / משפחות</li>
+              <li>ייצוא לקובץ Excel מוכן לאולם</li>
+            </ul>
+          </div>
+          <div>
+            <button
+              class="btn btn-main"
+              onclick="location.href='pro.html'"
+            >
+              📦 פרטים על החבילה
+            </button>
+
+            <button
+              class="btn btn-ghost"
+              onclick="location.href='event-builder.html?tier=pro'"
+            >
+              צור אירוע בחבילה מתקדמת
+            </button>
+          </div>
+        </article>
+
+        <!-- פרימיום – 149 -->
+        <article class="card premium">
+          <div>
+            <div class="tag">לחתונות ואירועי יוקרה</div>
+            <h2>חבילה פרימיום</h2>
+            <div class="price">149₪</div>
+            <div class="desc">
+              עיצוב יוקרתי, לוח ניהול מלא, ייצוא לאקסל ותמיכה עד האירוע.
+            </div>
+            <ul>
+              <li>עיצוב יוקרתי בסגנון חתונה</li>
+              <li>התאמת טקסטים אישית לאירוע</li>
+              <li>תמיכה ושינויים קטנים עד האירוע</li>
+            </ul>
+          </div>
+          <div>
+            <button
+              class="btn btn-main"
+              onclick="location.href='premium.html'"
+            >
+              📄 פרטים על חבילת פרימיום
+            </button>
+
+            <button
+              class="btn btn-ghost"
+              onclick="location.href='event-builder.html?tier=premium'"
+            >
+              צור אירוע בחבילה פרימיום
+            </button>
+          </div>
+        </article>
+      </section>
+
+      <footer>
+        InvitePro • Premium RSVP System<br />
+        יוצר המערכת: Netanel Ben Haim
+      </footer>
+    </div>
+  </body>
+</html>

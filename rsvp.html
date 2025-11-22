@@ -15,6 +15,37 @@
         --ok: #16a34a;
         --no: #dc2626;
       }
+      /* חבילת חינם – הכי פשוטה */
+body[data-tier="free"] {
+  --bg: #111827;
+  --card: #020617;
+  --accent: #6b7280;
+  --accent-2: #4b5563;
+}
+
+/* חבילה בסיסית – 49₪ */
+body[data-tier="basic"] {
+  --bg: #0f172a;
+  --card: #111827;
+  --accent: #3b82f6;
+  --accent-2: #1d4ed8;
+}
+
+/* חבילה מתקדמת – 99₪ */
+body[data-tier="pro"] {
+  --bg: #020617;
+  --card: #020617;
+  --accent: #22c55e;
+  --accent-2: #15803d;
+}
+
+/* חבילת פרימיום – 149₪ (יוקרתי יותר) */
+body[data-tier="premium"] {
+  --bg: #020617;
+  --card: #020617;
+  --accent: #fbbf24;
+  --accent-2: #f59e0b;
+}
       * {
         box-sizing: border-box;
       }
@@ -434,6 +465,10 @@
       const EVENT_LOC =
         params.get("loc") || "תל אביב, יגאל אלון 50 קומה 10";
       const ADMIN_PWD = params.get("admin_pwd") || "1234";
+
+// חבילה (free / basic / pro / premium)
+const TIER = params.get("tier") || "basic";
+document.body.dataset.tier = TIER;
 
       document.getElementById("eventTitle").textContent = EVENT_TITLE;
       document.getElementById("eventMeta").textContent =

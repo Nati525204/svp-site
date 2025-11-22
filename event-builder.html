@@ -27,6 +27,20 @@
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
       }
 
+      .top-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+        color: #9ca3af;
+        margin-bottom: 10px;
+      }
+
+      .top-nav a {
+        color: #93c5fd;
+        text-decoration: none;
+      }
+
       h1 {
         margin: 0 0 6px;
         font-size: clamp(24px, 3vw, 30px);
@@ -46,7 +60,8 @@
         font-weight: 600;
       }
 
-      input {
+      input,
+      select {
         width: 100%;
         padding: 11px 12px;
         border-radius: 12px;
@@ -57,8 +72,27 @@
         margin-bottom: 12px;
       }
 
+      select {
+        cursor: pointer;
+      }
+
       input::placeholder {
         color: #6b7280;
+      }
+
+      .paid-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        margin-top: -6px;
+        margin-bottom: 10px;
+      }
+
+      .paid-row input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #22c55e;
       }
 
       button {
@@ -117,24 +151,6 @@
         margin-top: 8px;
       }
 
-      .top-nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 13px;
-        margin-bottom: 10px;
-        color: #9ca3af;
-      }
-
-      .top-nav a {
-        color: #93c5fd;
-        text-decoration: none;
-      }
-
-      .top-nav a:hover {
-        text-decoration: underline;
-      }
-
       footer {
         margin-top: 20px;
         font-size: 12px;
@@ -148,7 +164,11 @@
     <div class="wrap">
       <div class="top-nav">
         <span>🛠 יצירת אירוע</span>
-        <a href="index.html">חזרה לדף הבית</a>
+        <div style="display:flex;gap:10px;">
+          <a href="index.html">דף הבית</a>
+          <a href="landing.html">חבילות</a>
+          <a href="events.html">📋 ניהול אירועים</a>
+        </div>
       </div>
 
       <h1>יצירת אירוע חדש 🎉</h1>
@@ -166,6 +186,26 @@
       <label>סיסמת מנהל</label>
       <input id="admin" placeholder="בחר סיסמה (רק לך)" />
 
+      <label>חבילה שנרכשה</label>
+      <select id="tier">
+        <option value="free">חינם – טופס בסיסי</option>
+        <option value="basic" selected>בסיסי – 49₪</option>
+        <option value="pro">מתקדם – 99₪</option>
+        <option value="premium">פרימיום – 149₪</option>
+      </select>
+
+      <div
+        id="tierDetails"
+        style="margin-bottom: 12px; font-size: 13px; color: #9ca3af"
+      >
+        חבילה בסיסית – 49₪ • טופס מעוצב + ניהול אישורי הגעה.
+      </div>
+
+      <div class="paid-row">
+        <input id="paidConfirm" type="checkbox" />
+        <label for="paidConfirm">אני מאשר/ת ששילמתי עבור החבילה.</label>
+      </div>
+
       <button id="make">צור אירוע</button>
 
       <div id="output" class="box" style="display: none"></div>
@@ -176,6 +216,57 @@
     <script>
       const makeBtn = document.getElementById("make");
       const output = document.getElementById("output");
+      const tierSelect = document.getElementById("tier");
+      const paidConfirm = document.getElementById("paidConfirm");
+      const tierDetails = document.getElementById("tierDetails");
+
+      // אותו KEY כמו ב-events.html
+      const STORAGE_KEY = "invitepro_events_v1";
+
+      const tierDescriptions = {
+        free: "חבילת חינם – טופס בסיסי לאישור הגעה.",
+        basic: "חבילה בסיסית – 49₪ • טופס מעוצב + ניהול אישורי הגעה.",
+        pro: "חבילה מתקדמת – 99₪ • כולל לוח ניהול מלא + ייצוא לאקסל.",
+        premium:
+          "חבילת פרימיום – 149₪ • עיצוב יוקרתי, לוח ניהול, ייצוא לאקסל ותמיכה עד האירוע.",
+      };
+
+      // קריאת tier מה-URL (אם הגיעו מ-landing עם ?tier=...)
+      const params = new URLSearchParams(location.search);
+      const urlTier = params.get("tier");
+      if (urlTier && tierDescriptions[urlTier]) {
+        tierSelect.value = urlTier;
+      }
+
+      function updateTierDetails() {
+        const tier = tierSelect.value || "basic";
+        tierDetails.textContent = tierDescriptions[tier] || "";
+      }
+
+      tierSelect.addEventListener("change", updateTierDetails);
+      // עדכון ראשוני
+      updateTierDetails();
+
+      function loadEvents() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return [];
+          const arr = JSON.parse(raw);
+          if (!Array.isArray(arr)) return [];
+          return arr;
+        } catch (e) {
+          console.error("Load events error", e);
+          return [];
+        }
+      }
+
+      function saveEvents(list) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        } catch (e) {
+          console.error("Save events error", e);
+        }
+      }
 
       makeBtn.addEventListener("click", () => {
         const title = document.getElementById("title").value.trim();
@@ -184,15 +275,24 @@
           document.getElementById("loc").value.trim() ||
           "תל אביב, יגאל אלון 50 קומה 10";
         const admin = document.getElementById("admin").value.trim();
+        const tier = tierSelect.value;
 
         if (!title || !date || !admin) {
           alert("מלא את כל השדות (שם אירוע, תאריך, סיסמה)");
           return;
         }
 
-        const event_id = crypto.randomUUID();
+        // מלבד חינם – חייב סימון תשלום
+        if (tier !== "free" && !paidConfirm.checked) {
+          alert("סמן/י ששילמת עבור החבילה שבחרת.");
+          return;
+        }
 
-        // בסיס ה-URL של האתר בגיטהאב
+        const event_id = crypto.randomUUID
+          ? crypto.randomUUID()
+          : String(Date.now()) + String(Math.random());
+
+        // בסיס ה-URL של האתר
         const base =
           location.origin + location.pathname.replace(/[^/]+$/, "");
 
@@ -200,7 +300,33 @@
           title
         )}&date=${encodeURIComponent(date)}&loc=${encodeURIComponent(
           loc
-        )}&admin_pwd=${encodeURIComponent(admin)}`;
+        )}&admin_pwd=${encodeURIComponent(admin)}&tier=${tier}`;
+
+        const tierLabel =
+          tier === "free"
+            ? "חינם"
+            : tier === "basic"
+            ? "בסיסי – 49₪"
+            : tier === "pro"
+            ? "מתקדם – 99₪"
+            : "פרימיום – 149₪";
+
+        // 🔁 שמירה אוטומטית ל-events.html (localStorage)
+        try {
+          const events = loadEvents();
+          events.push({
+            id: event_id,
+            title,
+            date,
+            link: fullLink,
+            tier,
+            createdAt: new Date().toISOString(),
+          });
+          saveEvents(events);
+          console.log("Event saved to localStorage");
+        } catch (e) {
+          console.error("Error saving event to localStorage", e);
+        }
 
         output.style.display = "block";
         output.innerHTML = `
@@ -210,12 +336,13 @@
             <button id="copyBtn">העתק</button>
           </div>
           <div class="note">
-            שלח את הלינק הזה למוזמנים. כדי לפתוח לוח ניהול, היכנס לאותו לינק, לחץ על
-            "לוח ניהול" והזן את סיסמת המנהל שבחרת.
+            שלח את הלינק הזה למוזמנים. בסוף הדף יש כפתור "לוח ניהול"
+            עם סיסמת המנהל שבחרת.<br/>
+            <strong>חבילה שנבחרה:</strong> ${tierLabel}<br/>
+            האירוע נוסף אוטומטית גם למסך <strong>"ניהול אירועים"</strong>.
           </div>
         `;
 
-        // כפתור העתקה
         const copyBtn = document.getElementById("copyBtn");
         copyBtn.addEventListener("click", async () => {
           const inp = document.getElementById("eventLink");
@@ -225,7 +352,6 @@
             copyBtn.textContent = "הועתק ✔";
             setTimeout(() => (copyBtn.textContent = "העתק"), 1500);
           } catch {
-            // fallback
             document.execCommand("copy");
             copyBtn.textContent = "הועתק ✔";
             setTimeout(() => (copyBtn.textContent = "העתק"), 1500);

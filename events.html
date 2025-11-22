@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>InvitePro – ניהול אירועים</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --bg: #020617;
+        --card: #0b1220;
+        --muted: #9ca3af;
+        --text: #e5e7eb;
+        --accent: #3b82f6;
+        --accent2: #1d4ed8;
+        --danger: #ef4444;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(circle at top, #1d2a4a, #020617 55%, #000);
+        font-family: "Heebo", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        color: var(--text);
+        display: flex;
+        justify-content: center;
+        padding: 24px 12px 32px;
+      }
+      .wrap {
+        width: min(960px, 100%);
+        background: rgba(15, 23, 42, 0.96);
+        border-radius: 26px;
+        padding: 20px 20px 22px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        box-shadow: 0 22px 70px rgba(0, 0, 0, 0.7);
+      }
+      .top-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 12px;
+      }
+      .top-nav a {
+        color: #93c5fd;
+        text-decoration: none;
+      }
+      header {
+        margin-bottom: 16px;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(24px, 3vw, 30px);
+        font-weight: 900;
+        color: #bfdbfe;
+      }
+      .sub {
+        margin-top: 4px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        gap: 16px;
+      }
+      @media (min-width: 780px) {
+        .grid {
+          grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+        }
+      }
+
+      .card {
+        background: #020617;
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        padding: 14px 14px 16px;
+      }
+
+      .card h2 {
+        margin: 0 0 10px;
+        font-size: 16px;
+      }
+
+      label {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 4px;
+        font-weight: 600;
+      }
+      input {
+        width: 100%;
+        padding: 9px 10px;
+        border-radius: 12px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: #020617;
+        color: var(--text);
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+      input::placeholder {
+        color: #6b7280;
+      }
+
+      .btn-main {
+        width: 100%;
+        padding: 10px 0;
+        border-radius: 999px;
+        border: none;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        color: #f9fafb;
+        font-weight: 800;
+        font-size: 14px;
+        cursor: pointer;
+        box-shadow: 0 10px 26px rgba(37, 99, 235, 0.6);
+        transition: transform 0.06s ease, filter 0.15s ease;
+      }
+      .btn-main:active {
+        transform: translateY(1px);
+        box-shadow: none;
+      }
+
+      .hint {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+      th,
+      td {
+        padding: 8px 6px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        text-align: right;
+      }
+      th {
+        font-weight: 600;
+        color: var(--muted);
+        background: rgba(15, 23, 42, 0.9);
+        position: sticky;
+        top: 0;
+        z-index: 1;
+      }
+      tbody tr:hover td {
+        background: rgba(15, 23, 42, 0.7);
+      }
+
+      .actions {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+      .btn-sm {
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        background: transparent;
+        color: var(--text);
+        font-size: 11px;
+        padding: 4px 7px;
+        cursor: pointer;
+      }
+      .btn-sm.danger {
+        border-color: rgba(248, 113, 113, 0.9);
+        color: #fecaca;
+      }
+
+      .empty {
+        font-size: 13px;
+        color: var(--muted);
+        text-align: center;
+        padding: 16px 0 6px;
+      }
+
+      footer {
+        margin-top: 18px;
+        font-size: 12px;
+        color: #6b7280;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <div class="top-nav">
+        <span>InvitePro • ניהול אירועים</span>
+        <div style="display: flex; gap: 10px">
+          <a href="index.html">🏠 דף מערכת</a>
+          <a href="landing.html">📦 חבילות</a>
+          <a href="event-builder.html">✨ יצירת אירוע חדש</a>
+        </div>
+      </div>
+
+      <header>
+        <h1>ניהול אירועים</h1>
+        <div class="sub">
+          כאן תוכל לשמור, לראות ולנהל את כל האירועים שיצרת במערכת InvitePro.
+        </div>
+      </header>
+
+      <section class="grid">
+        <!-- טופס הוספת אירוע -->
+        <article class="card">
+          <h2>הוספת אירוע לרשימה</h2>
+
+          <label for="evTitle">שם האירוע</label>
+          <input id="evTitle" placeholder="למשל: חתונת נתי וטל" />
+
+          <label for="evDate">תאריך</label>
+          <input id="evDate" placeholder="למשל: 18.11.2025" />
+
+          <label for="evLink">קישור להזמנה</label>
+          <input
+            id="evLink"
+            placeholder="הדבק כאן את הקישור שנוצר מ־event-builder"
+          />
+
+          <button class="btn-main" id="addEventBtn">הוסף אירוע</button>
+
+          <div class="hint">
+            טיפ: אחרי יצירת אירוע ב־"יצירת אירוע חדש", העתק את הקישור שנוצר
+            והדבק כאן כדי לשמור אותו ברשימה.
+          </div>
+        </article>
+
+        <!-- רשימת אירועים -->
+        <article class="card">
+          <h2>האירועים השמורים שלך</h2>
+          <div style="max-height: 260px; overflow: auto; margin-top: 6px">
+            <table>
+              <thead>
+                <tr>
+                  <th>שם האירוע</th>
+                  <th>תאריך</th>
+                  <th>קישור</th>
+                  <th>פעולות</th>
+                </tr>
+              </thead>
+              <tbody id="eventsBody"></tbody>
+            </table>
+          </div>
+          <div id="emptyState" class="empty">
+            עדיין לא שמרת אירועים. הוסף אירוע חדש בצד שמאל.
+          </div>
+        </article>
+      </section>
+
+      <footer>InvitePro • יוצר המערכת: Netanel Ben Haim</footer>
+    </div>
+
+    <script>
+      const STORAGE_KEY = "invitepro_events_v1";
+
+      const titleInput = document.getElementById("evTitle");
+      const dateInput = document.getElementById("evDate");
+      const linkInput = document.getElementById("evLink");
+      const addBtn = document.getElementById("addEventBtn");
+      const bodyEl = document.getElementById("eventsBody");
+      const emptyEl = document.getElementById("emptyState");
+
+      function loadEvents() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return [];
+          const arr = JSON.parse(raw);
+          if (!Array.isArray(arr)) return [];
+          return arr;
+        } catch (e) {
+          console.error("Load events error", e);
+          return [];
+        }
+      }
+
+      function saveEvents(list) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+      }
+
+      function renderEvents() {
+        const events = loadEvents();
+        bodyEl.innerHTML = "";
+
+        if (!events.length) {
+          emptyEl.style.display = "block";
+          return;
+        }
+        emptyEl.style.display = "none";
+
+        events.forEach((ev) => {
+          const tr = document.createElement("tr");
+
+          const tdTitle = document.createElement("td");
+          tdTitle.textContent = ev.title || "";
+          tr.appendChild(tdTitle);
+
+          const tdDate = document.createElement("td");
+          tdDate.textContent = ev.date || "";
+          tr.appendChild(tdDate);
+
+          const tdLink = document.createElement("td");
+          const short =
+            ev.link && ev.link.length > 28
+              ? ev.link.slice(0, 28) + "..."
+              : ev.link || "";
+          tdLink.textContent = short;
+          tdLink.style.fontSize = "11px";
+          tdLink.style.direction = "ltr";
+          tr.appendChild(tdLink);
+
+          const tdAct = document.createElement("td");
+          const actBox = document.createElement("div");
+          actBox.className = "actions";
+
+          const openBtn = document.createElement("button");
+          openBtn.className = "btn-sm";
+          openBtn.textContent = "פתח";
+          openBtn.addEventListener("click", () => {
+            if (ev.link) window.open(ev.link, "_blank");
+          });
+
+          const copyBtn = document.createElement("button");
+          copyBtn.className = "btn-sm";
+          copyBtn.textContent = "העתק קישור";
+          copyBtn.addEventListener("click", async () => {
+            if (!ev.link) return;
+            try {
+              await navigator.clipboard.writeText(ev.link);
+              copyBtn.textContent = "הועתק ✔";
+              setTimeout(() => (copyBtn.textContent = "העתק קישור"), 1500);
+            } catch {
+              const tmp = document.createElement("input");
+              tmp.value = ev.link;
+              document.body.appendChild(tmp);
+              tmp.select();
+              document.execCommand("copy");
+              document.body.removeChild(tmp);
+              copyBtn.textContent = "הועתק ✔";
+              setTimeout(() => (copyBtn.textContent = "העתק קישור"), 1500);
+            }
+          });
+
+          const delBtn = document.createElement("button");
+          delBtn.className = "btn-sm danger";
+          delBtn.textContent = "מחק";
+          delBtn.addEventListener("click", () => {
+            const ok = confirm(
+              `למחוק את האירוע "${ev.title || ""}" מהרשימה?`
+            );
+            if (!ok) return;
+            const all = loadEvents().filter((x) => x.id !== ev.id);
+            saveEvents(all);
+            renderEvents();
+          });
+
+          actBox.appendChild(openBtn);
+          actBox.appendChild(copyBtn);
+          actBox.appendChild(delBtn);
+          tdAct.appendChild(actBox);
+          tr.appendChild(tdAct);
+
+          bodyEl.appendChild(tr);
+        });
+      }
+
+      addBtn.addEventListener("click", () => {
+        const title = titleInput.value.trim();
+        const date = dateInput.value.trim();
+        const link = linkInput.value.trim();
+
+        if (!title || !date || !link) {
+          alert("נא למלא שם אירוע, תאריך וקישור.");
+          return;
+        }
+
+        const events = loadEvents();
+        events.push({
+          id: crypto.randomUUID
+            ? crypto.randomUUID()
+            : String(Date.now()) + String(Math.random()),
+          title,
+          date,
+          link,
+          createdAt: new Date().toISOString(),
+        });
+        saveEvents(events);
+
+        titleInput.value = "";
+        dateInput.value = "";
+        linkInput.value = "";
+        renderEvents();
+      });
+
+      // רינדור ראשוני
+      renderEvents();
+    </script>
+  </body>
+</html>
