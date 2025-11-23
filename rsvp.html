@@ -16,36 +16,36 @@
         --no: #dc2626;
       }
       /* חבילת חינם – הכי פשוטה */
-body[data-tier="free"] {
-  --bg: #111827;
-  --card: #020617;
-  --accent: #6b7280;
-  --accent-2: #4b5563;
-}
+      body[data-tier="free"] {
+        --bg: #111827;
+        --card: #020617;
+        --accent: #6b7280;
+        --accent-2: #4b5563;
+      }
 
-/* חבילה בסיסית – 49₪ */
-body[data-tier="basic"] {
-  --bg: #0f172a;
-  --card: #111827;
-  --accent: #3b82f6;
-  --accent-2: #1d4ed8;
-}
+      /* חבילה בסיסית – 49₪ */
+      body[data-tier="basic"] {
+        --bg: #0f172a;
+        --card: #111827;
+        --accent: #3b82f6;
+        --accent-2: #1d4ed8;
+      }
 
-/* חבילה מתקדמת – 99₪ */
-body[data-tier="pro"] {
-  --bg: #020617;
-  --card: #020617;
-  --accent: #22c55e;
-  --accent-2: #15803d;
-}
+      /* חבילה מתקדמת – 99₪ */
+      body[data-tier="pro"] {
+        --bg: #020617;
+        --card: #020617;
+        --accent: #22c55e;
+        --accent-2: #15803d;
+      }
 
-/* חבילת פרימיום – 149₪ (יוקרתי יותר) */
-body[data-tier="premium"] {
-  --bg: #020617;
-  --card: #020617;
-  --accent: #fbbf24;
-  --accent-2: #f59e0b;
-}
+      /* חבילת פרימיום – 149₪ (יוקרתי יותר) */
+      body[data-tier="premium"] {
+        --bg: #020617;
+        --card: #020617;
+        --accent: #fbbf24;
+        --accent-2: #f59e0b;
+      }
       * {
         box-sizing: border-box;
       }
@@ -248,6 +248,44 @@ body[data-tier="premium"] {
       .danger {
         color: #fca5a5;
       }
+
+      /* קופסת פרימיום – ברכה + מתנה */
+      .premium-box {
+        margin-top: 10px;
+        padding: 12px 14px;
+        border-radius: 18px;
+        border: 1px solid rgba(251, 191, 36, 0.7);
+        background: radial-gradient(circle at top, #451a03, #020617 65%);
+        font-size: 13px;
+      }
+      .premium-box h3 {
+        margin: 0 0 8px;
+        font-size: 15px;
+      }
+      .premium-gift-btn {
+        margin-top: 6px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 700;
+        background: linear-gradient(135deg, #facc15, #eab308);
+        color: #292524;
+      }
+      .premium-note {
+        margin-top: 6px;
+        font-size: 12px;
+        color: #fde68a;
+      }
+      #wishText {
+        margin-top: 4px;
+        width: 100%;
+        min-height: 70px;
+        resize: vertical;
+        font-family: inherit;
+        font-size: 13px;
+      }
     </style>
   </head>
   <body>
@@ -375,6 +413,35 @@ body[data-tier="premium"] {
               placeholder="שמות וגילאים, לדוגמה: דני (5), רותם (8)"
             />
           </div>
+
+          <!-- פרימיום בלבד: ברכה + מתנה בביט -->
+          <div id="premiumExtras" style="display: none">
+            <div class="premium-box">
+              <h3>💎 אזור פרימיום – ברכה ומתנה</h3>
+              <label for="wishText" style="margin: 0; font-weight: 600">
+                רוצה לכתוב ברכה לבעל האירוע?
+              </label>
+              <textarea
+                id="wishText"
+                class="field"
+                placeholder="למשל: מזל טוב! מאחלים לכם המון אהבה ושמחה ❤️"
+              ></textarea>
+
+              <div id="giftWrapper" style="margin-top: 8px; display: none">
+                <button
+                  type="button"
+                  id="giftBtn"
+                  class="premium-gift-btn"
+                >
+                  🎁 שליחת מתנה בביט
+                </button>
+                <div class="premium-note">
+                  הכפתור יפתח עבורך קישור ביט שמוגדר על ידי בעל האירוע. לאחר
+                  התשלום מומלץ לציין זאת גם בברכה.
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
 
         <div class="row">
@@ -466,9 +533,12 @@ body[data-tier="premium"] {
         params.get("loc") || "תל אביב, יגאל אלון 50 קומה 10";
       const ADMIN_PWD = params.get("admin_pwd") || "1234";
 
-// חבילה (free / basic / pro / premium)
-const TIER = params.get("tier") || "basic";
-document.body.dataset.tier = TIER;
+      // חבילה (free / basic / pro / premium)
+      const TIER = params.get("tier") || "basic";
+      document.body.dataset.tier = TIER;
+
+      // לינק לביט (פרימיום בלבד) – מגיע מה-URL אם בעל האירוע הגדיר
+      const GIFT_URL = params.get("gift_bit") || "";
 
       document.getElementById("eventTitle").textContent = EVENT_TITLE;
       document.getElementById("eventMeta").textContent =
@@ -495,41 +565,62 @@ document.body.dataset.tier = TIER;
         );
       });
 
-    // תצורת הגעה – הצגת שדות זוג / משפחה
-const familyFields = $("#familyFields");
-const groupButtons = $$("[data-group]");
-const partnerInput = $("#partnerName");
-const childrenCountInput = $("#childrenCount");
-const childrenDetailsInput = $("#childrenDetails");
+      // תצורת הגעה – הצגת שדות זוג / משפחה
+      const familyFields = $("#familyFields");
+      const groupButtons = $$("[data-group]");
+      const partnerInput = $("#partnerName");
+      const childrenCountInput = $("#childrenCount");
+      const childrenDetailsInput = $("#childrenDetails");
 
-groupButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const g = btn.dataset.group;
+      groupButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const g = btn.dataset.group;
 
-    if (g === "single") {
-      // יחיד – לא מציגים כלום
-      familyFields.style.display = "none";
-      partnerInput.value = "";
-      childrenCountInput.value = "";
-      childrenDetailsInput.value = "";
-    } else if (g === "couple") {
-      // זוג – רק בן/בת זוג
-      familyFields.style.display = "block";
-      partnerInput.style.display = "block";
-      childrenCountInput.style.display = "none";
-      childrenDetailsInput.style.display = "none";
+          if (g === "single") {
+            // יחיד – לא מציגים כלום
+            familyFields.style.display = "none";
+            partnerInput.value = "";
+            childrenCountInput.value = "";
+            childrenDetailsInput.value = "";
+          } else if (g === "couple") {
+            // זוג – רק בן/בת זוג
+            familyFields.style.display = "block";
+            partnerInput.style.display = "block";
+            childrenCountInput.style.display = "none";
+            childrenDetailsInput.style.display = "none";
 
-      childrenCountInput.value = "";
-      childrenDetailsInput.value = "";
-    } else if (g === "family") {
-      // משפחה – הכל
-      familyFields.style.display = "block";
-      partnerInput.style.display = "block";
-      childrenCountInput.style.display = "block";
-      childrenDetailsInput.style.display = "block";
-    }
-  });
-});
+            childrenCountInput.value = "";
+            childrenDetailsInput.value = "";
+          } else if (g === "family") {
+            // משפחה – הכל
+            familyFields.style.display = "block";
+            partnerInput.style.display = "block";
+            childrenCountInput.style.display = "block";
+            childrenDetailsInput.style.display = "block";
+          }
+        });
+      });
+
+      // ===== פרימיום בלבד: הצגת קופסת ברכה + מתנה =====
+      const premiumExtras = $("#premiumExtras");
+      const giftWrapper = $("#giftWrapper");
+      const giftBtn = $("#giftBtn");
+
+      if (TIER === "premium") {
+        if (premiumExtras) premiumExtras.style.display = "block";
+
+        if (GIFT_URL && giftWrapper && giftBtn) {
+          giftWrapper.style.display = "block";
+          giftBtn.addEventListener("click", () => {
+            window.open(GIFT_URL, "_blank");
+          });
+        } else if (giftWrapper) {
+          giftWrapper.style.display = "none";
+        }
+      } else {
+        if (premiumExtras) premiumExtras.style.display = "none";
+      }
+
       // ===== Supabase REST =====
       const REST = `${SUPABASE_URL}/rest/v1/${TABLE}`;
       const headers = {
@@ -591,6 +682,7 @@ groupButtons.forEach((btn) => {
         const attendingBtn = $("[data-attending][aria-pressed='true']");
         const dietBtn = $("[data-diet][aria-pressed='true']");
         const groupBtn = $("[data-group][aria-pressed='true']");
+        const wishText = $("#wishText") ? $("#wishText").value.trim() : "";
 
         if (!first || !last || !phone) {
           toast("נא למלא שם פרטי, שם משפחה ומספר טלפון");
@@ -657,6 +749,10 @@ groupButtons.forEach((btn) => {
           );
           $("[data-group='single']").setAttribute("aria-pressed", "true");
           familyFields.style.display = "none";
+
+          if ($("#wishText")) {
+            $("#wishText").value = "";
+          }
         } catch (e2) {
           console.error(e2);
           toast("שגיאה בשמירה: " + e2.message);
@@ -664,7 +760,7 @@ groupButtons.forEach((btn) => {
 
         // טלגרם (לא עוצר אם נכשל)
         if (TG_TOKEN && TG_CHAT) {
-          const txt =
+          let txt =
             `אישור הגעה חדש:\n` +
             `אירוע: ${EVENT_TITLE}\n` +
             `שם: ${first} ${last}\n` +
@@ -674,6 +770,11 @@ groupButtons.forEach((btn) => {
               diet === "vegetarian" ? "צמחוני/טבעוני" : "אוכלי בשר"
             }` +
             (children_ages ? `\nמשפחה: ${children_ages}` : "");
+
+          // ברכה – רק אם יש טקסט
+          if (wishText) {
+            txt += `\n\nברכה:\n${wishText}`;
+          }
 
           fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
             method: "POST",
