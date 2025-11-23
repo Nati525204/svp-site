@@ -249,7 +249,7 @@
         color: #fca5a5;
       }
 
-      /* קופסת פרימיום – ברכה + מתנה */
+      /* קופסת פרימיום – ברכה + מתנה + כפתורים מותאמים */
       .premium-box {
         margin-top: 10px;
         padding: 12px 14px;
@@ -262,7 +262,8 @@
         margin: 0 0 8px;
         font-size: 15px;
       }
-      .premium-gift-btn {
+      .premium-gift-btn,
+      .premium-custom-btn {
         margin-top: 6px;
         padding: 8px 12px;
         border-radius: 999px;
@@ -272,6 +273,12 @@
         font-weight: 700;
         background: linear-gradient(135deg, #facc15, #eab308);
         color: #292524;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .premium-custom-btn {
+        margin-inline-end: 6px;
       }
       .premium-note {
         margin-top: 6px;
@@ -285,6 +292,11 @@
         resize: vertical;
         font-family: inherit;
         font-size: 13px;
+      }
+      #customText {
+        font-size: 13px;
+        color: #fef9c3;
+        margin-top: 4px;
       }
     </style>
   </head>
@@ -414,9 +426,17 @@
             />
           </div>
 
-          <!-- פרימיום בלבד: ברכה + מתנה בביט -->
+          <!-- פרימיום בלבד: אזור ברכה + מתנה + כפתורים מותאמים -->
           <div id="premiumExtras" style="display: none">
-            <div class="premium-box">
+            <!-- אזור מותאם אישית -->
+            <div class="premium-box" id="premiumCustomBox" style="display:none;">
+              <h3 id="customTitle">אזור מותאם אישית</h3>
+              <div id="customText"></div>
+              <div id="customButtonsWrap" style="margin-top:8px;"></div>
+            </div>
+
+            <!-- אזור ברכה + מתנה -->
+            <div class="premium-box" style="margin-top:10px;">
               <h3>💎 אזור פרימיום – ברכה ומתנה</h3>
               <label for="wishText" style="margin: 0; font-weight: 600">
                 רוצה לכתוב ברכה לבעל האירוע?
@@ -540,6 +560,16 @@
       // לינק לביט (פרימיום בלבד) – מגיע מה-URL אם בעל האירוע הגדיר
       const GIFT_URL = params.get("gift_bit") || "";
 
+      // ערכים לאזור מותאם אישית בפרימיום
+      const CUSTOM_TITLE = params.get("cs_title") || "";
+      const CUSTOM_TEXT = params.get("cs_text") || "";
+      const BTN1_LABEL = params.get("btn1_label") || "";
+      const BTN1_URL = params.get("btn1_url") || "";
+      const BTN2_LABEL = params.get("btn2_label") || "";
+      const BTN2_URL = params.get("btn2_url") || "";
+      const BTN3_LABEL = params.get("btn3_label") || "";
+      const BTN3_URL = params.get("btn3_url") || "";
+
       document.getElementById("eventTitle").textContent = EVENT_TITLE;
       document.getElementById("eventMeta").textContent =
         EVENT_DATE + " • " + EVENT_LOC;
@@ -601,14 +631,50 @@
         });
       });
 
-      // ===== פרימיום בלבד: הצגת קופסת ברכה + מתנה =====
+      // ===== פרימיום בלבד: הצגת קופסאות פרימיום =====
       const premiumExtras = $("#premiumExtras");
       const giftWrapper = $("#giftWrapper");
       const giftBtn = $("#giftBtn");
 
+      const premiumCustomBox = $("#premiumCustomBox");
+      const customTitleEl = $("#customTitle");
+      const customTextEl = $("#customText");
+      const customButtonsWrap = $("#customButtonsWrap");
+
       if (TIER === "premium") {
         if (premiumExtras) premiumExtras.style.display = "block";
 
+        // אזור מותאם אישית
+        const hasCustomContent =
+          CUSTOM_TITLE || CUSTOM_TEXT || BTN1_URL || BTN2_URL || BTN3_URL;
+
+        if (premiumCustomBox && hasCustomContent) {
+          premiumCustomBox.style.display = "block";
+          customTitleEl.textContent = CUSTOM_TITLE || "אזור מיוחד לאירוע";
+          customTextEl.textContent = CUSTOM_TEXT || "";
+
+          customButtonsWrap.innerHTML = "";
+
+          const addBtn = (label, url) => {
+            if (!label || !url) return;
+            const b = document.createElement("button");
+            b.className = "premium-custom-btn";
+            b.type = "button";
+            b.textContent = label;
+            b.addEventListener("click", () => {
+              window.open(url, "_blank");
+            });
+            customButtonsWrap.appendChild(b);
+          };
+
+          addBtn(BTN1_LABEL, BTN1_URL);
+          addBtn(BTN2_LABEL, BTN2_URL);
+          addBtn(BTN3_LABEL, BTN3_URL);
+        } else if (premiumCustomBox) {
+          premiumCustomBox.style.display = "none";
+        }
+
+        // כפתור ביט למתנה
         if (GIFT_URL && giftWrapper && giftBtn) {
           giftWrapper.style.display = "block";
           giftBtn.addEventListener("click", () => {

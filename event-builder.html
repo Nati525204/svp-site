@@ -61,29 +61,70 @@
       }
 
       input,
-      select {
+      select,
+      textarea {
         width: 100%;
         padding: 11px 12px;
         border-radius: 12px;
         border: 1px solid rgba(148, 163, 184, 0.7);
         background: #020617;
         color: #e5e7eb;
-        font-size: 15px;
-        margin-bottom: 12px;
+        font-size: 14px;
+        margin-bottom: 10px;
+        font-family: inherit;
+      }
+
+      textarea {
+        min-height: 70px;
+        resize: vertical;
       }
 
       select {
         cursor: pointer;
       }
 
-      input::placeholder {
+      input::placeholder,
+      textarea::placeholder {
         color: #6b7280;
+      }
+
+      .hint {
+        font-size: 12px;
+        color: #9ca3af;
+        margin-top: -4px;
+        margin-bottom: 8px;
+      }
+
+      .premium-box {
+        margin-top: 8px;
+        padding: 10px 12px 10px;
+        border-radius: 16px;
+        border: 1px solid rgba(251, 191, 36, 0.7);
+        background: radial-gradient(circle at top, #451a03, #020617 65%);
+        font-size: 13px;
+      }
+
+      .premium-box h3 {
+        margin: 0 0 6px;
+        font-size: 15px;
+      }
+
+      .btn-row {
+        display: grid;
+        gap: 6px;
+        margin-top: 4px;
+        margin-bottom: 8px;
+      }
+
+      .btn-row small {
+        font-size: 11px;
+        color: #e5e7eb;
       }
 
       button {
         width: 100%;
         padding: 12px;
-        margin-top: 4px;
+        margin-top: 6px;
         border-radius: 999px;
         border: none;
         cursor: pointer;
@@ -160,7 +201,7 @@
       <div class="sub">מלא כמה שדות וניצור עבורך לינק מוכן לשליחה.</div>
 
       <label>שם האירוע</label>
-      <input id="title" placeholder="למשל: ערב בשרים" />
+      <input id="title" placeholder="למשל: חתונת נתי וטל" />
 
       <label>תאריך</label>
       <input id="date" placeholder="למשל: 18.11.2025" />
@@ -186,7 +227,56 @@
         חבילה בסיסית – 49₪ • טופס מעוצב + ניהול אישורי הגעה.
       </div>
 
-      <!-- אין צ'קבוקס תשלום כאן יותר -->
+      <!-- אזור הגדרות פרימיום למארח -->
+      <div id="premiumConfig" class="premium-box" style="display:none;">
+        <h3>💎 הגדרות פרימיום – תוכן מותאם אישית</h3>
+        <p class="hint">
+          כאן אתה קובע איך ייראה האזור המיוחד בפרימיום: טקסט חופשי וכפתורים
+          לקישורים שתרצה (ביט, מפה, תפריט ועוד).
+        </p>
+
+        <label>כותרת לאזור המיוחד</label>
+        <input
+          id="csTitle"
+          placeholder="למשל: אזור מתנות וברכות"
+        />
+
+        <label>טקסט לאזור המיוחד</label>
+        <textarea
+          id="csText"
+          placeholder="למשל: כאן תוכלו למצוא קישורים למתנה, מיקום, תפריט ועוד."
+        ></textarea>
+
+        <div class="btn-row">
+          <small>כפתור 1 (למשל: מתנה בביט)</small>
+          <input id="btn1Label" placeholder="טקסט כפתור 1 – למשל: שליחת מתנה" />
+          <input
+            id="btn1Url"
+            placeholder="קישור כפתור 1 – למשל: לינק ביט / פייבוקס / דף תשלום"
+          />
+
+          <small>כפתור 2 (למשל: מיקום באפליקציה)</small>
+          <input id="btn2Label" placeholder="טקסט כפתור 2 – למשל: מיקום האירוע" />
+          <input
+            id="btn2Url"
+            placeholder="קישור כפתור 2 – למשל: Google Maps / Waze"
+          />
+
+          <small>כפתור 3 (אופציונלי)</small>
+          <input id="btn3Label" placeholder="טקסט כפתור 3" />
+          <input id="btn3Url" placeholder="קישור כפתור 3" />
+        </div>
+
+        <label>קישור ביט למתנה (לאזור המתנה בפרימיום)</label>
+        <input
+          id="giftBit"
+          placeholder="למשל: קישור שיתוף מתנה מהאפליקציה של ביט"
+        />
+        <div class="hint">
+          אם תמלא כאן קישור, כפתור "שליחת מתנה בביט" בדף ההזמנה ייפתח את הקישור
+          הזה.
+        </div>
+      </div>
 
       <button id="make">צור אירוע</button>
 
@@ -200,6 +290,7 @@
       const output = document.getElementById("output");
       const tierSelect = document.getElementById("tier");
       const tierDetails = document.getElementById("tierDetails");
+      const premiumConfig = document.getElementById("premiumConfig");
 
       // אותו KEY כמו ב-events.html
       const STORAGE_KEY = "invitepro_events_v1";
@@ -209,7 +300,7 @@
         basic: "חבילה בסיסית – 49₪ • טופס מעוצב + ניהול אישורי הגעה.",
         pro: "חבילה מתקדמת – 99₪ • כולל לוח ניהול מלא + ייצוא לאקסל.",
         premium:
-          "חבילת פרימיום – 149₪ • עיצוב יוקרתי, לוח ניהול, ייצוא לאקסל ותמיכה עד האירוע.",
+          "חבילת פרימיום – 149₪ • עיצוב יוקרתי, אזור מותאם אישית, לוח ניהול, ייצוא לאקסל ותמיכה עד האירוע.",
       };
 
       // קריאת tier ו-paid מה-URL
@@ -224,6 +315,13 @@
       function updateTierDetails() {
         const tier = tierSelect.value || "basic";
         tierDetails.textContent = tierDescriptions[tier] || "";
+
+        // רק בפרימיום – מציגים את הגדרות הפרימיום
+        if (tier === "premium") {
+          premiumConfig.style.display = "block";
+        } else {
+          premiumConfig.style.display = "none";
+        }
       }
 
       tierSelect.addEventListener("change", updateTierDetails);
@@ -270,18 +368,59 @@
           return;
         }
 
+        // ערכי פרימיום – רק אם החבילה היא פרימיום
+        let csTitle = "";
+        let csText = "";
+        let btn1Label = "";
+        let btn1Url = "";
+        let btn2Label = "";
+        let btn2Url = "";
+        let btn3Label = "";
+        let btn3Url = "";
+        let giftBit = "";
+
+        if (tier === "premium") {
+          csTitle = document.getElementById("csTitle").value.trim();
+          csText = document.getElementById("csText").value.trim();
+          btn1Label = document.getElementById("btn1Label").value.trim();
+          btn1Url = document.getElementById("btn1Url").value.trim();
+          btn2Label = document.getElementById("btn2Label").value.trim();
+          btn2Url = document.getElementById("btn2Url").value.trim();
+          btn3Label = document.getElementById("btn3Label").value.trim();
+          btn3Url = document.getElementById("btn3Url").value.trim();
+          giftBit = document.getElementById("giftBit").value.trim();
+        }
+
         const event_id = crypto.randomUUID
           ? crypto.randomUUID()
           : String(Date.now()) + String(Math.random());
 
+        // בסיס ה-URL של האתר
         const base =
           location.origin + location.pathname.replace(/[^/]+$/, "");
 
-        const fullLink = `${base}rsvp.html?event_id=${event_id}&title=${encodeURIComponent(
-          title
-        )}&date=${encodeURIComponent(date)}&loc=${encodeURIComponent(
-          loc
-        )}&admin_pwd=${encodeURIComponent(admin)}&tier=${tier}`;
+        // בונים קישור עם URLSearchParams כדי שיהיה נקי
+        const url = new URL(base + "rsvp.html");
+        url.searchParams.set("event_id", event_id);
+        url.searchParams.set("title", title);
+        url.searchParams.set("date", date);
+        url.searchParams.set("loc", loc);
+        url.searchParams.set("admin_pwd", admin);
+        url.searchParams.set("tier", tier);
+
+        if (tier === "premium") {
+          if (csTitle) url.searchParams.set("cs_title", csTitle);
+          if (csText) url.searchParams.set("cs_text", csText);
+          if (btn1Label) url.searchParams.set("btn1_label", btn1Label);
+          if (btn1Url) url.searchParams.set("btn1_url", btn1Url);
+          if (btn2Label) url.searchParams.set("btn2_label", btn2Label);
+          if (btn2Url) url.searchParams.set("btn2_url", btn2Url);
+          if (btn3Label) url.searchParams.set("btn3_label", btn3Label);
+          if (btn3Url) url.searchParams.set("btn3_url", btn3Url);
+          if (giftBit) url.searchParams.set("gift_bit", giftBit);
+        }
+
+        const fullLink = url.toString();
 
         const tierLabel =
           tier === "free"
