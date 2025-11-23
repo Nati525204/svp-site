@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>InvitePro – תשלום עבור חבילה</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --bg: #020617;
+        --card: #0b1220;
+        --muted: #9ca3af;
+        --text: #e5e7eb;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(circle at top, #1d2a4a, #020617 55%, #000);
+        font-family: "Heebo", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        color: var(--text);
+        display: flex;
+        justify-content: center;
+        padding: 24px 12px 32px;
+      }
+      .wrap {
+        width: min(640px, 100%);
+        background: rgba(15, 23, 42, 0.96);
+        border-radius: 24px;
+        padding: 20px 20px 22px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        box-shadow: 0 22px 70px rgba(0, 0, 0, 0.7);
+      }
+      .top-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+      .top-nav a {
+        color: #93c5fd;
+        text-decoration: none;
+      }
+      h1 {
+        margin: 0 0 6px;
+        font-size: clamp(22px, 3vw, 28px);
+        font-weight: 900;
+        color: #bfdbfe;
+      }
+      .sub {
+        font-size: 14px;
+        color: var(--muted);
+        margin-bottom: 14px;
+      }
+      .card {
+        background: #020617;
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        padding: 16px 14px 16px;
+        font-size: 14px;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 12px;
+        padding: 3px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(59, 130, 246, 0.6);
+        color: #93c5fd;
+        margin-bottom: 6px;
+      }
+      .price {
+        font-size: 22px;
+        font-weight: 800;
+        margin: 6px 0 4px;
+      }
+      .price small {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 400;
+      }
+      .section-title {
+        margin-top: 10px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .pay-method {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .pay-method a {
+        color: #93c5fd;
+        text-decoration: underline;
+      }
+      .checkbox-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        margin-top: 14px;
+      }
+      .checkbox-row input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #22c55e;
+      }
+      .btn-next {
+        width: 100%;
+        padding: 10px 0;
+        margin-top: 10px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        background: #111827;
+        color: #6b7280;
+        font-weight: 700;
+        font-size: 14px;
+        transition: background 0.15s ease, color 0.15s ease,
+          transform 0.06s ease, box-shadow 0.15s ease;
+      }
+      .btn-next.enabled {
+        background: linear-gradient(135deg, #22c55e, #16a34a);
+        color: #ecfdf5;
+        box-shadow: 0 10px 26px rgba(22, 163, 74, 0.6);
+      }
+      .btn-next.enabled:active {
+        transform: translateY(1px);
+        box-shadow: none;
+      }
+      .note {
+        margin-top: 10px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="top-nav">
+        <span>InvitePro • תשלום חבילה</span>
+        <div style="display:flex;gap:10px;">
+          <a href="landing.html">📦 חבילות</a>
+          <a href="event-builder.html">✨ יצירת אירוע</a>
+        </div>
+      </div>
+
+      <h1 id="title">תשלום עבור חבילה</h1>
+      <div class="sub" id="subtitle"></div>
+
+      <div class="card">
+        <div class="badge" id="badge">חבילה</div>
+        <div class="price" id="price"></div>
+
+        <div class="section-title">תשלום בביט</div>
+        <div class="pay-method">
+          העברה בביט למספר:
+          <strong>058-4525204</strong><br />
+          שם מקבל התשלום: <strong>נתנאל בן חיים</strong>
+        </div>
+
+        <div class="section-title">תשלום בפייבוקס</div>
+        <div class="pay-method" id="payboxBlock">
+           קישור לתשלום בפייבוקס כרגע לא עובד: 
+          <br />
+          <!-- תחליף כאן ללינקים האמיתיים שלך -->
+          <a id="payboxLink" href="#" target="_blank">פתח פייבוקס לתשלום</a>
+        </div>
+
+        <div class="section-title">העברה בנקאית</div>
+        <div class="pay-method">
+          בנק: <strong>10</strong> | סניף: <strong>998</strong> | חשבון:
+          <strong>15551442</strong><br />
+         
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="paidCheck" />
+          <label for="paidCheck">אני מאשר/ת שסיימתי לשלם עבור החבילה.</label>
+        </div>
+
+        <button class="btn-next" id="nextBtn" disabled>
+          המשך ליצירת אירוע
+        </button>
+
+        <div class="note">
+          בלי תשלום החבילה לא מאושרת. רק חבילת חינם זמינה ללא תשלום. שים לב – אין
+          כאן בדיקה אוטומטית מול הבנק או ביט, זה מבוסס על אמון מולך בתור בעל
+          המערכת.
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const params = new URLSearchParams(location.search);
+      const tier = params.get("tier") || "basic";
+
+      const tiers = {
+        free: {
+          name: "חבילת חינם",
+          price: "0₪",
+          desc: "חבילה ללא תשלום (לא צריך דף זה).",
+          paybox: "#",
+        },
+        basic: {
+          name: "חבילה בסיסית",
+          price: "49₪",
+          desc: "טופס מעוצב וניהול אישורי הגעה.",
+          paybox: "PAYBOX_LINK_BASIC",
+        },
+        pro: {
+          name: "חבילה מתקדמת",
+          price: "99₪",
+          desc: "טופס + לוח ניהול + אקסל.",
+          paybox: "PAYBOX_LINK_PRO",
+        },
+        premium: {
+          name: "חבילת פרימיום",
+          price: "149₪",
+          desc: "עיצוב יוקרתי, לוח ניהול, אקסל ותמיכה.",
+          paybox: "PAYBOX_LINK_PREMIUM",
+        },
+      };
+
+      const t = tiers[tier] || tiers.basic;
+
+      document.getElementById("title").textContent =
+        "תשלום עבור " + t.name;
+      document.getElementById("subtitle").textContent = t.desc;
+      document.getElementById("badge").textContent = t.name;
+      document.getElementById("price").innerHTML =
+        t.price + ' <small>• תשלום חד־פעמי לכל אירוע</small>';
+
+      const payboxLink = document.getElementById("payboxLink");
+      if (t.paybox && t.paybox !== "#") {
+        payboxLink.href = t.paybox;
+      } else {
+        // אם אין לינק – אפשר להסתיר את הבלוק של פייבוקס
+        document.getElementById("payboxBlock").style.display = "none";
+      }
+
+      const paidCheck = document.getElementById("paidCheck");
+      const nextBtn = document.getElementById("nextBtn");
+
+      paidCheck.addEventListener("change", () => {
+        if (paidCheck.checked) {
+          nextBtn.disabled = false;
+          nextBtn.classList.add("enabled");
+        } else {
+          nextBtn.disabled = true;
+          nextBtn.classList.remove("enabled");
+        }
+      });
+
+      nextBtn.addEventListener("click", () => {
+        if (nextBtn.disabled) return;
+        location.href = `event-builder.html?tier=${tier}&paid=ok`;
+      });
+    </script>
+  </body>
+</html>

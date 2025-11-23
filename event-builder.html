@@ -2,9 +2,9 @@
 <html lang="he" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>יצירת אירוע חדש</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       body {
         min-height: 100vh;
@@ -78,21 +78,6 @@
 
       input::placeholder {
         color: #6b7280;
-      }
-
-      .paid-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 13px;
-        margin-top: -6px;
-        margin-bottom: 10px;
-      }
-
-      .paid-row input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        accent-color: #22c55e;
       }
 
       button {
@@ -201,10 +186,7 @@
         חבילה בסיסית – 49₪ • טופס מעוצב + ניהול אישורי הגעה.
       </div>
 
-      <div class="paid-row">
-        <input id="paidConfirm" type="checkbox" />
-        <label for="paidConfirm">אני מאשר/ת ששילמתי עבור החבילה.</label>
-      </div>
+      <!-- אין צ'קבוקס תשלום כאן יותר -->
 
       <button id="make">צור אירוע</button>
 
@@ -217,7 +199,6 @@
       const makeBtn = document.getElementById("make");
       const output = document.getElementById("output");
       const tierSelect = document.getElementById("tier");
-      const paidConfirm = document.getElementById("paidConfirm");
       const tierDetails = document.getElementById("tierDetails");
 
       // אותו KEY כמו ב-events.html
@@ -231,9 +212,11 @@
           "חבילת פרימיום – 149₪ • עיצוב יוקרתי, לוח ניהול, ייצוא לאקסל ותמיכה עד האירוע.",
       };
 
-      // קריאת tier מה-URL (אם הגיעו מ-landing עם ?tier=...)
+      // קריאת tier ו-paid מה-URL
       const params = new URLSearchParams(location.search);
       const urlTier = params.get("tier");
+      const paidFlag = params.get("paid");
+
       if (urlTier && tierDescriptions[urlTier]) {
         tierSelect.value = urlTier;
       }
@@ -244,8 +227,13 @@
       }
 
       tierSelect.addEventListener("change", updateTierDetails);
-      // עדכון ראשוני
       updateTierDetails();
+
+      // 🔒 מנעול: חבילות בתשלום מחייבות מעבר דרך payment.html
+      if (tierSelect.value !== "free" && paidFlag !== "ok") {
+        alert("כדי ליצור אירוע בחבילה בתשלום, צריך לעבור קודם דרך דף התשלום.");
+        location.href = `payment.html?tier=${tierSelect.value}`;
+      }
 
       function loadEvents() {
         try {
@@ -282,17 +270,10 @@
           return;
         }
 
-        // מלבד חינם – חייב סימון תשלום
-        if (tier !== "free" && !paidConfirm.checked) {
-          alert("סמן/י ששילמת עבור החבילה שבחרת.");
-          return;
-        }
-
         const event_id = crypto.randomUUID
           ? crypto.randomUUID()
           : String(Date.now()) + String(Math.random());
 
-        // בסיס ה-URL של האתר
         const base =
           location.origin + location.pathname.replace(/[^/]+$/, "");
 
@@ -311,7 +292,7 @@
             ? "מתקדם – 99₪"
             : "פרימיום – 149₪";
 
-        // 🔁 שמירה אוטומטית ל-events.html (localStorage)
+        // שמירה אוטומטית ל-events.html
         try {
           const events = loadEvents();
           events.push({
@@ -323,7 +304,6 @@
             createdAt: new Date().toISOString(),
           });
           saveEvents(events);
-          console.log("Event saved to localStorage");
         } catch (e) {
           console.error("Error saving event to localStorage", e);
         }

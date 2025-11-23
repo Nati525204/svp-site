@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <title>מערכת אישור הגעה לאירועים</title>
+    <title>InvitePro – מרכז המערכת</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       body {
@@ -18,51 +18,88 @@
       }
 
       .shell {
-        width: min(900px, 95vw);
+        width: min(960px, 95vw);
         background: rgba(15, 23, 42, 0.95);
         border-radius: 24px;
-        padding: 28px 26px 30px;
+        padding: 24px 22px 26px;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
         border: 1px solid rgba(148, 163, 184, 0.35);
       }
 
+      header {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .top-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
       h1 {
-        margin: 0 0 6px;
+        margin: 0;
         font-size: clamp(26px, 3.2vw, 32px);
         font-weight: 800;
+      }
+
+      .brand {
+        font-size: 12px;
+        color: #9ca3af;
+      }
+
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 4px;
+      }
+
+      nav a {
+        font-size: 13px;
+        text-decoration: none;
+        color: #bfdbfe;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.4);
       }
 
       .subtitle {
         color: #9ca3af;
         font-size: 14px;
-        margin-bottom: 20px;
+        margin-top: 6px;
       }
 
       .grid {
         display: grid;
-        gap: 18px;
+        gap: 16px;
       }
 
-      @media (min-width: 720px) {
+      @media (min-width: 780px) {
         .grid {
-          grid-template-columns: 1.1fr 1fr;
+          grid-template-columns: 1.15fr 0.85fr;
         }
       }
 
       .card {
         background: rgba(15, 23, 42, 0.9);
         border-radius: 18px;
-        padding: 18px 18px 16px;
+        padding: 16px 16px 14px;
         border: 1px solid rgba(148, 163, 184, 0.35);
       }
 
       .card h2 {
         margin: 0 0 6px;
-        font-size: 18px;
+        font-size: 17px;
       }
 
       .card p {
-        margin: 0 0 12px;
+        margin: 0 0 10px;
         font-size: 14px;
         color: #9ca3af;
       }
@@ -72,11 +109,11 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
-        padding: 11px 16px;
+        padding: 10px 16px;
         border-radius: 999px;
         border: none;
         cursor: pointer;
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 700;
         text-decoration: none;
         transition: transform 0.06s ease, box-shadow 0.15s ease,
@@ -134,8 +171,21 @@
         color: #ecfdf5;
       }
 
+      .actions-col {
+        display: grid;
+        gap: 10px;
+        margin-top: 10px;
+        font-size: 13px;
+        color: #9ca3af;
+      }
+
+      .actions-col button,
+      .actions-col a {
+        width: 100%;
+      }
+
       footer {
-        margin-top: 22px;
+        margin-top: 20px;
         font-size: 12px;
         color: #6b7280;
         display: flex;
@@ -151,169 +201,111 @@
       a {
         color: #93c5fd;
       }
-
-      /* כרטיסי חבילות */
-      .packages {
-        margin-top: 22px;
-      }
-
-      .packages-grid {
-        display: grid;
-        gap: 12px;
-      }
-
-      @media (min-width: 720px) {
-        .packages-grid {
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-      }
-
-      .pkg {
-        border-radius: 16px;
-        border: 1px solid rgba(148, 163, 184, 0.35);
-        padding: 12px 14px;
-        font-size: 13px;
-      }
-
-      .pkg h3 {
-        margin: 0 0 4px;
-        font-size: 16px;
-      }
-
-      .pkg ul {
-        margin: 0;
-        padding-inline-start: 18px;
-        color: #9ca3af;
-      }
-
-      .pkg.pkg-pro {
-        border-color: rgba(59, 130, 246, 0.7);
-      }
-
-      .pkg.pkg-premium {
-        border-color: rgba(22, 163, 74, 0.8);
-      }
     </style>
   </head>
   <body>
-    <div class="shell">
-      <h1>מערכת אישור הגעה לאירועים 🎉</h1>
-      <div class="subtitle">
-        יוצרים אירוע, מקבלים לינק יפה לאורחים, ואתה מנהל הכול מלוח ניהול אחד.
-      </div>
-
-      <div class="grid">
-        <section class="card">
-          <h2>➕ יצירת אירוע חדש</h2>
-          <p>
-            בחר שם לאירוע, תאריך, מיקום וסיסמת מנהל – וקבל לינק מוכן לשליחה
-            בווטסאפ / טלגרם.
-          </p>
-          <a class="btn btn-primary" href="event-builder.html">
-            יצירת אירוע חדש
-          </a>
-          <div class="pill">
-            אחרי יצירת האירוע, תקבל כתובת כמו
-            <code>.../rsvp.html?event_id=...</code> שאותה שולחים למוזמנים.
-          </div>
-        </section>
-
-        <section class="card">
-          <h2>🔗 יש לי כבר קישור</h2>
-          <p>
-            אם כבר יש לך קישור לטופס אישור הגעה (rsvp.html?event_id=...), הדבק
-            אותו כאן כדי להיפתח אליו.
-          </p>
-          <div class="input-line">
-            <input
-              id="existingLink"
-              type="text"
-              placeholder="הדבק כאן את כל הכתובת..."
-            />
-            <button id="openLink">פתח</button>
-          </div>
-          <div class="pill">
-            אותו קישור משמש גם את האורחים וגם אותך – עם כפתור
-            <strong>„לוח ניהול״</strong> וסיסמת המנהל שהגדרת.
-          </div>
-        </section>
-      </div>
-
-      <!-- חבילות ומחירים -->
-      <section class="card packages">
-        <h2>💎 חבילות ומחירים</h2>
-        <p style="font-size: 14px; color: #9ca3af; margin-bottom: 10px">
-          התשלום הוא חד־פעמי לכל אירוע. האורחים לא משלמים כלום – רק בעל/ת
-          האירוע.
-        </p>
-
-        <div class="packages-grid">
-          <div class="pkg">
-            <h3>חבילה בסיסית – 49₪</h3>
-            <ul>
-              <li>טופס אישור הגעה מעוצב למובייל</li>
-              <li>שם האירוע, תאריך ומיקום מותאמים אישית</li>
-              <li>שליחת האישורים לטלגרם / מייל אחד</li>
-              <li>סטטוס מגיע / לא מגיע</li>
-            </ul>
-          </div>
-
-          <div class="pkg pkg-pro">
-            <h3>חבילה מתקדמת – 99₪</h3>
-            <ul>
-              <li>כל מה שבחבילה הבסיסית</li>
-              <li>חלוקה ליחיד / זוג / משפחה</li>
-              <li>פרטי בן/בת זוג וילדים (אם צריך)</li>
-              <li>לוח ניהול למארגן עם טבלה מסודרת</li>
-              <li>ייצוא לרשימת Excel בלחיצת כפתור</li>
-            </ul>
-          </div>
-
-          <div class="pkg pkg-premium">
-            <h3>חבילת פרימיום – 149₪</h3>
-            <ul>
-              <li>כל מה שבחבילה המתקדמת</li>
-              <li>התאמת טקסטים אישית לפי האירוע</li>
-              <li>עזרה בהגדרת הטופס + בדיקת תקינות</li>
-              <li>שינויים קטנים גם אחרי שהטופס כבר פתוח</li>
-            </ul>
+    <main class="shell" aria-label="InvitePro – דף הבית">
+      <header>
+        <div class="top-row">
+          <div>
+            <h1>InvitePro – מערכת אישור הגעה 🎉</h1>
+            <div class="brand">מרכז ניהול לכל האירועים שלך במקום אחד</div>
           </div>
         </div>
 
-        <div
-          style="
-            margin-top: 14px;
-            font-size: 14px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            align-items: center;
-          "
-        >
-          <span>להזמנות ושאלות:</span>
-          <a
-            href="https://wa.me/972584525204?text=היי,%20ראיתי%20את%20מערכת%20אישור%20ההגעה%20שלך%20ואני%20מעוניין/ת%20לפתוח%20אירוע"
-            style="color: #93c5fd; text-decoration: none; font-weight: 600"
-            >שליחת הודעה בוואטסאפ</a
-          >
-          <span style="font-size: 12px; color: #6b7280">
-            
-          </span>
+        <nav aria-label="ניווט ראשי">
+          <a href="landing.html">📦 חבילות ומחירים</a>
+          <a href="event-builder.html">✨ יצירת אירוע</a>
+          <a href="events.html">📋 ניהול אירועים</a>
+          <a href="rsvp.html">🔍 דוגמת טופס RSVP</a>
+        </nav>
+
+        <div class="subtitle">
+          מכאן אפשר: ליצור אירוע חדש, לנהל אירועים קיימים, לעבוד עם חבילות
+          תשלום ולפתוח קישורי RSVP קיימים.
         </div>
-      </section>
+      </header>
+
+      <div class="grid" role="region" aria-label="פעולות מרכזיות">
+        <!-- צד שמאל – יצירה וקישורים -->
+        <section class="card" aria-labelledby="create-title">
+          <h2 id="create-title">➕ יצירת אירוע וגישה לקישורים</h2>
+          <p>
+            כאן תיצור אירוע חדש, תקבל לינק להזמנה, ותוכל לפתוח קישורים שכבר
+            קיימים.
+          </p>
+
+          <div class="actions-col">
+            <a class="btn btn-primary" href="landing.html">
+              בחר חבילה והתחל עבודה
+            </a>
+
+            <a class="btn btn-secondary" href="event-builder.html?tier=free">
+              יצירת אירוע בחבילת חינם
+            </a>
+
+            <div>
+              <label
+                for="existingLink"
+                style="font-size: 13px; display: block; margin-bottom: 4px"
+              >
+                🔗 יש לך כבר קישור להזמנה?
+              </label>
+              <div class="input-line">
+                <input
+                  id="existingLink"
+                  type="text"
+                  placeholder="הדבק כאן קישור מלא או rsvp.html?event_id=..."
+                  aria-label="הדבקת קישור RSVP קיים"
+                />
+                <button id="openLink" type="button">פתח</button>
+              </div>
+              <div class="pill">
+                אפשר להדביק קישור מלא (https://...) או רק את החלק
+                <code>rsvp.html?event_id=...</code>.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- צד ימין – ניהול ומבט כללי -->
+        <section class="card" aria-labelledby="manage-title">
+          <h2 id="manage-title">📋 ניהול אירועים ומערכת</h2>
+          <p>
+            כל האירועים שאתה יוצר נשמרים מקומית ב־<strong>events.html</strong>.
+            משם אפשר לפתוח, להעתיק ולנהל כל קישור.
+          </p>
+
+          <div class="actions-col">
+            <a class="btn btn-secondary" href="events.html">
+              פתיחת לוח ניהול האירועים
+            </a>
+
+            <a class="btn btn-secondary" href="landing.html">
+              מעבר למסך החבילות InvitePro
+            </a>
+
+            <div class="pill">
+              • ליצור אירוע → לבחור חבילה ב־InvitePro  
+              • כל אירוע חדש נשמר אוטומטית במסך "ניהול אירועים"  
+              • משם אפשר בלחיצה: לפתוח, להעתיק ולשלוח קישורים למוזמנים.
+            </div>
+          </div>
+        </section>
+      </div>
 
       <footer>
-        <span>יוצר המערכת: נתנאל בן חיים • כל הזכויות שמורות ©</span>
-        <span>לתמיכה ופניות: suppornbh@gmail.com</span>
+        <span>יוצר המערכת: Netanel Ben Haim • כל הזכויות שמורות ©</span>
+        <span>לתמיכה: suppornbh@gmail.com</span>
       </footer>
-    </div>
+    </main>
 
     <script>
       // כפתור "פתח" – פשוט מנווט לכתובת שהודבקה
       document.getElementById("openLink").addEventListener("click", () => {
         const val = document.getElementById("existingLink").value.trim();
         if (!val) return;
-        // אם הדביקו רק rsvp.html?event_id=..., נוסיף דומיין אוטומטי
+
         if (val.startsWith("http://") || val.startsWith("https://")) {
           location.href = val;
         } else {
