@@ -2,296 +2,536 @@
 <html lang="he" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>InvitePro – חבילות ומחירים</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
+      :root {
+        --bg1: #020617;
+        --bg2: #1d2a4a;
+        --card: rgba(15, 23, 42, 0.96);
+        --border: rgba(148, 163, 184, 0.5);
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+        --accent: #3b82f6;
+        --accent2: #1d4ed8;
+        --basic: #3b82f6;
+        --pro: #22c55e;
+        --premium: #fbbf24;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         margin: 0;
         min-height: 100vh;
-        background: radial-gradient(circle at top, #1d2a4a, #020617 55%, #000);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at top, var(--bg2), var(--bg1) 58%, #000);
         font-family: "Heebo", system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", sans-serif;
-        color: #e5e7eb;
-        display: flex;
-        justify-content: center;
-        padding: 24px 12px 32px;
+        color: var(--text);
       }
 
-      .wrap {
-        width: min(960px, 100%);
-        background: rgba(15, 23, 42, 0.96);
+      main {
+        width: min(1100px, 96vw);
+        background:
+          radial-gradient(circle at top, rgba(59, 130, 246, 0.16), transparent 55%),
+          var(--card);
         border-radius: 26px;
         padding: 22px 22px 26px;
-        border: 1px solid rgba(148, 163, 184, 0.4);
-        box-shadow: 0 22px 70px rgba(0, 0, 0, 0.7);
-      }
-
-      .top-nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 13px;
-        color: #9ca3af;
-        margin-bottom: 12px;
-      }
-      .top-nav a {
-        color: #93c5fd;
-        text-decoration: none;
+        border: 1px solid var(--border);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.75);
       }
 
       header {
-        text-align: center;
-        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 18px;
       }
+
+      .top-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
       h1 {
         margin: 0;
-        font-size: clamp(26px, 3vw, 32px);
-        font-weight: 900;
-        color: #bfdbfe;
+        font-size: clamp(26px, 3.2vw, 32px);
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap: 8px;
       }
-      .sub {
+
+      .logo-pill {
+        font-size: 11px;
+        padding: 3px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(59, 130, 246, 0.7);
+        color: #bfdbfe;
+        background: rgba(15, 23, 42, 0.9);
+      }
+
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
         margin-top: 6px;
-        color: #9ca3af;
+      }
+
+      nav a {
+        font-size: 13px;
+        text-decoration: none;
+        color: #bfdbfe;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.96);
+        border: 1px solid rgba(148, 163, 184, 0.45);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .subtitle {
+        color: var(--muted);
         font-size: 14px;
+        margin-top: 4px;
+      }
+
+      .subtitle strong {
+        color: var(--text);
       }
 
       .grid {
         display: grid;
-        gap: 14px;
+        gap: 16px;
+        margin-top: 16px;
       }
-      @media (min-width: 780px) {
+
+      @media (min-width: 900px) {
         .grid {
           grid-template-columns: repeat(4, minmax(0, 1fr));
         }
       }
 
-      .card {
-        background: #020617;
+      .plan {
+        position: relative;
         border-radius: 20px;
-        padding: 14px 12px 14px;
-        border: 1px solid rgba(148, 163, 184, 0.35);
+        padding: 16px 14px 14px;
+        background: rgba(15, 23, 42, 0.98);
+        border: 1px solid rgba(148, 163, 184, 0.45);
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        min-height: 220px;
+        gap: 6px;
+        overflow: hidden;
       }
-      .card h2 {
-        font-size: 17px;
-        margin: 0 0 6px;
+
+      .plan.featured {
+        border-width: 2px;
+        box-shadow: 0 18px 40px rgba(59, 130, 246, 0.6);
       }
-      .price {
-        font-size: 20px;
-        font-weight: 800;
+
+      .plan-premium {
+        border-color: rgba(251, 191, 36, 0.85);
+        box-shadow: 0 18px 50px rgba(202, 138, 4, 0.75);
+        background:
+          radial-gradient(circle at top, rgba(250, 204, 21, 0.08), transparent 65%),
+          rgba(15, 23, 42, 0.98);
+      }
+
+      .plan-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 10px;
+        padding: 3px 7px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        color: #e5e7eb;
+      }
+
+      .plan-header {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
         margin-bottom: 4px;
       }
-      .desc {
-        font-size: 13px;
-        color: #9ca3af;
-        margin-bottom: 8px;
+
+      .plan-title {
+        font-size: 17px;
+        font-weight: 800;
       }
-      ul {
-        margin: 0 0 10px;
-        padding-inline-start: 18px;
+
+      .plan-sub {
         font-size: 12px;
-        color: #9ca3af;
+        color: var(--muted);
       }
-      li {
+
+      .price-row {
+        margin-top: 4px;
+        display: flex;
+        align-items: baseline;
+        gap: 4px;
+      }
+
+      .price-main {
+        font-size: 22px;
+        font-weight: 800;
+      }
+
+      .price-currency {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .price-note {
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .features {
+        list-style: none;
+        padding: 0;
+        margin: 6px 0 8px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .features li {
+        display: flex;
+        align-items: flex-start;
+        gap: 6px;
         margin-bottom: 3px;
       }
 
-      .tag {
-        font-size: 11px;
-        color: #a5b4fc;
-        margin-bottom: 4px;
+      .features li span {
+        font-size: 13px;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        margin-top: 4px;
+      }
+
+      .dot-basic {
+        background: var(--basic);
+      }
+
+      .dot-pro {
+        background: var(--pro);
+      }
+
+      .dot-premium {
+        background: var(--premium);
+      }
+
+      .dot-muted {
+        background: rgba(148, 163, 184, 0.7);
       }
 
       .btn {
-        width: 100%;
+        margin-top: auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 9px 12px;
         border-radius: 999px;
         border: none;
-        padding: 8px 0;
+        cursor: pointer;
         font-size: 13px;
         font-weight: 700;
-        cursor: pointer;
-        margin-top: 6px;
-        transition: transform 0.06s ease, box-shadow 0.15s ease,
-          filter 0.15s ease;
+        text-decoration: none;
+        transition: transform 0.06s ease, box-shadow 0.16s ease,
+          filter 0.16s ease, background 0.16s ease;
       }
+
       .btn:active {
         transform: translateY(1px);
+        box-shadow: none;
       }
-      .btn-main {
-        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-        color: #f9fafb;
-        box-shadow: 0 10px 25px rgba(37, 99, 235, 0.5);
+
+      .btn:hover {
+        filter: brightness(1.04);
       }
-      .btn-ghost {
-        background: transparent;
+
+      .btn-free {
+        background: rgba(15, 23, 42, 0.95);
         color: #e5e7eb;
         border: 1px solid rgba(148, 163, 184, 0.6);
       }
-      .card.basic {
-        border-color: rgba(59, 130, 246, 0.7);
-      }
-      .card.pro {
-        border-color: rgba(34, 197, 94, 0.8);
-      }
-      .card.premium {
-        border-color: rgba(251, 191, 36, 0.9);
-        box-shadow: 0 0 30px rgba(251, 191, 36, 0.2);
+
+      .btn-basic {
+        background: linear-gradient(135deg, var(--basic), #1d4ed8);
+        color: #f9fafb;
+        box-shadow: 0 12px 28px rgba(37, 99, 235, 0.7);
       }
 
-      footer {
-        margin-top: 20px;
+      .btn-pro {
+        background: linear-gradient(135deg, var(--pro), #15803d);
+        color: #f0fdf4;
+        box-shadow: 0 12px 28px rgba(22, 163, 74, 0.7);
+      }
+
+      .btn-premium {
+        background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        color: #292524;
+        box-shadow: 0 14px 34px rgba(202, 138, 4, 0.9);
+      }
+
+      .footer-note {
+        margin-top: 14px;
         font-size: 12px;
-        color: #6b7280;
-        text-align: center;
+        color: var(--muted);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: space-between;
+      }
+
+      .footer-note strong {
+        color: #e5e7eb;
+      }
+
+      .mini-line {
+        font-size: 11px;
+        color: #9ca3af;
+      }
+
+      a {
+        color: #93c5fd;
+      }
+
+      @media (max-width: 700px) {
+        .top-row {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        nav {
+          margin-top: 4px;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="wrap">
-      <div class="top-nav">
-        <span>InvitePro • מערכת אישור הגעה לאירועים</span>
-        <div style="display: flex; gap: 10px">
-          <a href="index.html">🏠 דף מערכת</a>
-          <a href="event-builder.html">✨ יצירת אירוע</a>
-        </div>
-      </div>
-
+    <main aria-label="InvitePro – חבילות ומחירים">
       <header>
-        <h1>חבילות InvitePro – 2025</h1>
-        <div class="sub">
-          בחר את החבילה שמתאימה לאירוע שלך. התשלום חד־פעמי לכל אירוע, האורחים
-          לא משלמים כלום.
+        <div class="top-row">
+          <div>
+            <h1>
+              חבילות InvitePro
+              <span class="logo-pill">NBH RSVP SYSTEM • 2025</span>
+            </h1>
+            <div class="subtitle">
+              בחר את החבילה שמתאימה לך –
+              <strong>מתופס חינמי ופשוט</strong>
+              ועד
+              <strong>פרימיום מותאם אישית עם אזור מתנות וברכות.</strong>
+            </div>
+          </div>
+          <nav aria-label="ניווט">
+            <a href="index.html">🏠 דף הבית</a>
+            <a href="event-builder.html">✨ יצירת אירוע</a>
+            <a href="events.html">📋 ניהול אירועים</a>
+            <a href="rsvp.html">🔍 טופס לדוגמה</a>
+          </nav>
         </div>
       </header>
 
-      <section class="grid">
-        <!-- חינם -->
-        <article class="card">
-          <div>
-            <div class="tag">כניסה לעולם InvitePro</div>
-            <h2>חבילת חינם</h2>
-            <div class="price">0₪</div>
-            <div class="desc">טופס בסיסי לאישור הגעה, מתאים לאירועים קטנים.</div>
-            <ul>
-              <li>טופס פשוט לאישור הגעה</li>
-              <li>שם אירוע + תאריך</li>
-              <li>מתאים לניסוי / דמו</li>
-            </ul>
+      <section class="grid" aria-label="חבילות ומחירים">
+        <!-- FREE -->
+        <article class="plan" aria-label="חבילת חינם">
+          <div class="plan-badge">מתאים לניסיון ראשון</div>
+          <div class="plan-header">
+            <div class="plan-title">Free – חינם</div>
+            <div class="plan-sub">טופס אישור הגעה פשוט בלי תשלום.</div>
           </div>
-          <div>
-            <button
-              class="btn btn-main"
-              onclick="location.href='event-builder.html?tier=free'"
-            >
-              צור אירוע בחבילת חינם
-            </button>
+          <div class="price-row">
+            <span class="price-main">0₪</span>
+            <span class="price-currency">חד פעמי</span>
           </div>
+          <div class="price-note">למי שרוצה רק לדעת מי מגיע.</div>
+          <ul class="features">
+            <li>
+              <span class="dot dot-muted"></span>
+              <span>טופס RSVP בסיסי לאישור הגעה.</span>
+            </li>
+            <li>
+              <span class="dot dot-muted"></span>
+              <span>שם, טלפון, סטטוס הגעה והעדפת תפריט.</span>
+            </li>
+            <li>
+              <span class="dot dot-muted"></span>
+              <span>לוח ניהול בסיסי דרך כפתור "לוח ניהול" בטופס.</span>
+            </li>
+            <li>
+              <span class="dot dot-muted"></span>
+              <span>מתאים לאירועים קטנים / אירועי ניסיון.</span>
+            </li>
+          </ul>
+          <button
+            class="btn btn-free"
+            type="button"
+            onclick="location.href='event-builder.html?tier=free'"
+          >
+            ➕ צור אירוע בחינם
+          </button>
         </article>
 
-        <!-- בסיסי – 49 -->
-        <article class="card basic">
-          <div>
-            <div class="tag">החבילה הפשוטה</div>
-            <h2>חבילה בסיסית</h2>
-            <div class="price">49₪</div>
-            <div class="desc">
-              טופס מעוצב ומקצועי לאישור הגעה, מתאים לאירועים קטנים ובינוניים.
+        <!-- BASIC -->
+        <article class="plan featured" aria-label="חבילת Basic">
+          <div class="plan-badge">הכי משתלם לרוב האירועים</div>
+          <div class="plan-header">
+            <div class="plan-title" style="color: #bfdbfe">Basic – 49₪</div>
+            <div class="plan-sub">
+              טופס מעוצב + הערה למארח + ניהול נוח.
             </div>
-            <ul>
-              <li>טופס מעוצב ומותאם לנייד</li>
-              <li>שם האירוע, תאריך ומיקום</li>
-              <li>ניהול אישורי הגעה בצורה נוחה</li>
-            </ul>
           </div>
-          <div>
-            <button
-              class="btn btn-main"
-              onclick="location.href='basic.html'"
-            >
-              📦 פרטים על החבילה
-            </button>
-
-            <button
-              class="btn btn-ghost"
-              onclick="location.href='payment.html?tier=basic'"
-            >
-              צור אירוע בחבילה בסיסית
-            </button>
+          <div class="price-row">
+            <span class="price-main" style="color: var(--basic)">49₪</span>
+            <span class="price-currency">חד פעמי לאירוע</span>
           </div>
+          <div class="price-note">
+            מושלם לחתונות קטנות, בר/בת מצווה ואירועי משפחה.
+          </div>
+          <ul class="features">
+            <li>
+              <span class="dot dot-basic"></span>
+              <span>עיצוב יוקרתי לטופס ההזמנה.</span>
+            </li>
+            <li>
+              <span class="dot dot-basic"></span>
+              <span>שדה "הערה למארח" – האורחים יכולים לכתוב בקשות מיוחדות.</span>
+            </li>
+            <li>
+              <span class="dot dot-basic"></span>
+              <span>עדכון אוטומטי למארח על כל אישור הגעה.</span>
+            </li>
+            <li>
+              <span class="dot dot-basic"></span>
+              <span>גישה ללוח ניהול האירוע + סיכום הגעה.</span>
+            </li>
+          </ul>
+          <button
+            class="btn btn-basic"
+            type="button"
+            onclick="location.href='payment.html?tier=basic'"
+          >
+            💳 בחר Basic והמשך לתשלום
+          </button>
         </article>
 
-        <!-- מתקדם – 99 -->
-        <article class="card pro">
-          <div>
-            <div class="tag">הכי משתלם</div>
-            <h2>חבילה מתקדמת</h2>
-            <div class="price">99₪</div>
-            <div class="desc">
-              כולל לוח ניהול מלא, ספירת מוזמנים וייצוא לאקסל.
+        <!-- PRO -->
+        <article class="plan" aria-label="חבילת Pro">
+          <div class="plan-badge">למי שרוצה שליטה מלאה</div>
+          <div class="plan-header">
+            <div class="plan-title" style="color: #bbf7d0">Pro – 99₪</div>
+            <div class="plan-sub">
+              אזור מתקדם עם שיר כניסה, הסעות ועוד.
             </div>
-            <ul>
-              <li>לוח ניהול מלא למארגן האירוע</li>
-              <li>ספירת מגיעים / לא מגיעים / משפחות</li>
-              <li>ייצוא לקובץ Excel מוכן לאולם</li>
-            </ul>
           </div>
-          <div>
-            <button
-              class="btn btn-main"
-              onclick="location.href='pro.html'"
-            >
-              📦 פרטים על החבילה
-            </button>
-
-            <button
-              class="btn btn-ghost"
-              onclick="location.href='payment.html?tier=pro'"
-            >
-              צור אירוע בחבילה מתקדמת
-            </button>
+          <div class="price-row">
+            <span class="price-main" style="color: var(--pro)">99₪</span>
+            <span class="price-currency">חד פעמי לאירוע</span>
           </div>
+          <div class="price-note">
+            לאירועים גדולים, חברות, ואנשים שאוהבים סדר.
+          </div>
+          <ul class="features">
+            <li>
+              <span class="dot dot-pro"></span>
+              <span>כולל כל מה שב־Basic.</span>
+            </li>
+            <li>
+              <span class="dot dot-pro"></span>
+              <span>שדה "שיר מועדף" – לחופה / כניסה / פתיחה.</span>
+            </li>
+            <li>
+              <span class="dot dot-pro"></span>
+              <span>שדה "הסעות" – האורחים מסמנים אם צריכים הסעה.</span>
+            </li>
+            <li>
+              <span class="dot dot-pro"></span>
+              <span>מידע מלא מסוכם עבורך עם פרטים מורחבים.</span>
+            </li>
+          </ul>
+          <button
+            class="btn btn-pro"
+            type="button"
+            onclick="location.href='payment.html?tier=pro'"
+          >
+            💳 בחר Pro והמשך לתשלום
+          </button>
         </article>
 
-        <!-- פרימיום – 149 -->
-        <article class="card premium">
-          <div>
-            <div class="tag">לחתונות ואירועי יוקרה</div>
-            <h2>חבילה פרימיום</h2>
-            <div class="price">149₪</div>
-            <div class="desc">
-              עיצוב יוקרתי, לוח ניהול מלא, ייצוא לאקסל ותמיכה עד האירוע.
+        <!-- PREMIUM -->
+        <article class="plan plan-premium" aria-label="חבילת Premium">
+          <div class="plan-badge">הכול כלול + אזור מותאם אישית</div>
+          <div class="plan-header">
+            <div class="plan-title">Premium – 149₪</div>
+            <div class="plan-sub">
+              אזור אישי שתוכנן במיוחד עבורך + מתנות בביט + ברכות מיוחדות.
             </div>
-            <ul>
-              <li>עיצוב יוקרתי בסגנון חתונה</li>
-              <li>התאמת טקסטים אישית לאירוע</li>
-              <li>תמיכה ושינויים קטנים עד האירוע</li>
-            </ul>
           </div>
-          <div>
-            <button
-              class="btn btn-main"
-              onclick="location.href='premium.html'"
-            >
-              📄 פרטים על חבילת פרימיום
-            </button>
-
-            <button
-              class="btn btn-ghost"
-              onclick="location.href='payment.html?tier=premium'"
-            >
-              צור אירוע בחבילה פרימיום
-            </button>
+          <div class="price-row">
+            <span class="price-main" style="color: var(--premium)">149₪</span>
+            <span class="price-currency">חד פעמי לאירוע</span>
           </div>
+          <div class="price-note">
+            לחתונות גדולות, ספקים מקצועיים, ומי שרוצה חוויית הזמנה ברמה הכי
+            גבוהה.
+          </div>
+          <ul class="features">
+            <li>
+              <span class="dot dot-premium"></span>
+              <span>כולל כל מה שב־Pro.</span>
+            </li>
+            <li>
+              <span class="dot dot-premium"></span>
+              <span>אזור מותאם אישית שאתה מגדיר ב־Event Builder (טקסט + כפתורים).</span>
+            </li>
+            <li>
+              <span class="dot dot-premium"></span>
+              <span>כפתור "שליחת מתנה בביט" עם קישור שאתה מגדיר.</span>
+            </li>
+            <li>
+              <span class="dot dot-premium"></span>
+              <span>אזור ברכות מיוחד – האורחים יכולים להשאיר ברכה אישית.</span>
+            </li>
+          </ul>
+          <button
+            class="btn btn-premium"
+            type="button"
+            onclick="location.href='payment.html?tier=premium'"
+          >
+            👑 בחר Premium והמשך לתשלום
+          </button>
         </article>
       </section>
 
-      <footer>
-        InvitePro • Premium RSVP System<br />
-        יוצר המערכת: Netanel Ben Haim
-      </footer>
-    </div>
+      <div class="footer-note">
+        <div>
+          <strong>איך זה עובד?</strong>
+          <div class="mini-line">
+            בוחרים חבילה → משלמים (בחבילות בתשלום) → מקבלים גישה ל־Event Builder →
+            יוצרים לינק להזמנה ושולחים לכל המוזמנים.
+          </div>
+        </div>
+        <div class="mini-line">
+          אפשר להתחיל ב־Free, ואם אהבת – לשדרג לאחת החבילות בתשלום באירוע הבא.
+        </div>
+      </div>
+    </main>
   </body>
 </html>

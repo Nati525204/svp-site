@@ -2,321 +2,549 @@
 <html lang="he" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <title>InvitePro – חבילה מתקדמת</title>
+    <title>InvitePro – חבילת Pro מתקדמת</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       :root {
-        --bg: #020617;
-        --accent: #22c55e;
-        --accent2: #15803d;
+        --bg1: #020617;
+        --bg2: #022c22;
+        --card: rgba(15, 23, 42, 0.97);
+        --border: rgba(34, 197, 94, 0.55);
         --text: #e5e7eb;
         --muted: #9ca3af;
+        --accent: #22c55e;
+        --accent-soft: #bbf7d0;
       }
+
       * {
         box-sizing: border-box;
       }
+
       body {
         margin: 0;
         min-height: 100vh;
-        background: radial-gradient(circle at top, #064e3b, #020617 60%, #000);
-        font-family: "Heebo", system-ui, sans-serif;
-        color: var(--text);
         display: flex;
+        align-items: center;
         justify-content: center;
-        padding: 24px 12px 32px;
+        background:
+          radial-gradient(circle at top, rgba(34, 197, 94, 0.18), transparent 55%),
+          radial-gradient(circle at bottom, var(--bg2), var(--bg1) 60%, #000);
+        font-family: "Heebo", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        color: var(--text);
       }
-      .wrap {
-        width: min(880px, 100%);
-        background: rgba(6, 16, 24, 0.96);
-        border-radius: 24px;
+
+      main {
+        width: min(980px, 96vw);
+        background:
+          radial-gradient(circle at top, rgba(34, 197, 94, 0.22), transparent 60%),
+          var(--card);
+        border-radius: 26px;
+        padding: 22px 22px 24px;
         border: 1px solid rgba(34, 197, 94, 0.4);
-        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.7);
-        padding: 20px 18px 22px;
+        box-shadow: 0 26px 80px rgba(0, 0, 0, 0.85);
       }
-      .top-nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 13px;
-        color: var(--muted);
-        margin-bottom: 10px;
-      }
-      .top-nav a {
-        color: #6ee7b7;
-        text-decoration: none;
-      }
+
       header {
-        padding-bottom: 14px;
-        border-bottom: 1px solid rgba(34, 197, 94, 0.4);
-      }
-      h1 {
-        margin: 0 0 4px;
-        font-size: clamp(26px, 3.4vw, 32px);
-        font-weight: 900;
-        color: #bbf7d0;
-      }
-      .tagline {
-        font-size: 14px;
-        color: var(--muted);
-      }
-      .badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 12px;
-        padding: 4px 12px;
-        border-radius: 999px;
-        background: rgba(6, 16, 24, 0.9);
-        border: 1px solid rgba(34, 197, 94, 0.9);
-        color: #a7f3d0;
-        margin-bottom: 8px;
-      }
-      .layout {
-        display: grid;
-        gap: 18px;
-        padding-top: 16px;
-      }
-      @media (min-width: 780px) {
-        .layout {
-          grid-template-columns: 1.1fr 0.9fr;
-        }
-      }
-      .card {
-        background: #020617;
-        border-radius: 20px;
-        border: 1px solid rgba(34, 197, 94, 0.4);
-        padding: 16px 14px 14px;
-      }
-      .card h2 {
-        margin: 0 0 8px;
-        font-size: 18px;
-      }
-      .card p {
-        margin: 0 0 8px;
-        font-size: 14px;
-        color: var(--muted);
-      }
-      .price {
-        font-size: 24px;
-        font-weight: 800;
-        color: #bbf7d0;
-        margin-bottom: 4px;
-      }
-      .price small {
-        font-size: 13px;
-        color: var(--muted);
-        font-weight: 400;
-      }
-      ul {
-        margin: 10px 0 0;
-        padding-inline-start: 18px;
-        font-size: 13px;
-        color: var(--muted);
-      }
-      li {
-        margin-bottom: 4px;
-      }
-      .cta-box {
-        margin-top: 14px;
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 6px;
+        margin-bottom: 16px;
       }
-      .btn-main {
-        display: inline-flex;
-        justify-content: center;
+
+      .top-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(24px, 3vw, 30px);
+        font-weight: 800;
+        display: flex;
         align-items: center;
         gap: 8px;
-        padding: 11px 18px;
+      }
+
+      .logo-pill {
+        font-size: 11px;
+        padding: 3px 9px;
         border-radius: 999px;
-        background: linear-gradient(135deg, var(--accent), var(--accent2));
-        color: #f9fafb;
-        border: none;
+        border: 1px solid rgba(34, 197, 94, 0.8);
+        color: #bbf7d0;
+        background: rgba(15, 23, 42, 0.96);
+      }
+
+      .subtitle {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .subtitle strong {
+        color: var(--text);
+      }
+
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      nav a {
+        font-size: 13px;
         text-decoration: none;
-        font-size: 15px;
-        font-weight: 800;
-        cursor: pointer;
-        box-shadow: 0 12px 30px rgba(22, 163, 74, 0.6);
-        transition: transform 0.08s ease, filter 0.18s ease;
-      }
-      .btn-main:hover {
-        filter: brightness(1.05);
-      }
-      .btn-main:active {
-        transform: translateY(1px);
-        box-shadow: none;
-      }
-      .btn-secondary {
+        color: #bbf7d0;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.98);
+        border: 1px solid rgba(34, 197, 94, 0.6);
         display: inline-flex;
-        justify-content: center;
         align-items: center;
         gap: 6px;
-        padding: 9px 16px;
-        border-radius: 999px;
-        border: 1px solid rgba(34, 197, 94, 0.7);
-        background: transparent;
-        color: var(--text);
-        font-size: 13px;
-        cursor: pointer;
-        text-decoration: none;
       }
+
+      .layout {
+        display: grid;
+        gap: 16px;
+        margin-top: 10px;
+      }
+
+      @media (min-width: 860px) {
+        .layout {
+          grid-template-columns: 1.05fr 0.95fr;
+        }
+      }
+
+      .card {
+        border-radius: 20px;
+        padding: 16px 16px 18px;
+        border: 1px solid rgba(34, 197, 94, 0.45);
+        background: rgba(15, 23, 42, 0.97);
+      }
+
+      .card h2 {
+        margin: 0 0 6px;
+        font-size: 16px;
+      }
+
+      .card p {
+        margin: 0 0 8px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .price-row {
+        margin-top: 8px;
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+      }
+
+      .price-main {
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--accent);
+      }
+
+      .price-unit {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .price-note {
+        margin-top: 4px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
       .pill-row {
+        margin-top: 8px;
         display: flex;
         flex-wrap: wrap;
         gap: 6px;
         font-size: 11px;
-        margin-top: 10px;
-      }
-      .pill {
-        padding: 4px 8px;
-        border-radius: 999px;
-        border: 1px solid rgba(34, 197, 94, 0.5);
         color: var(--muted);
       }
-      .timeline {
-        margin-top: 10px;
-        font-size: 13px;
+
+      .pill {
+        padding: 3px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(34, 197, 94, 0.4);
       }
-      .timeline-step {
+
+      .pill-main {
+        border-color: rgba(34, 197, 94, 0.85);
+        color: #bbf7d0;
+      }
+
+      ul.features {
+        list-style: none;
+        padding: 0;
+        margin: 10px 0 0;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      ul.features li {
         display: flex;
         gap: 8px;
-        margin-bottom: 6px;
+        margin-bottom: 5px;
       }
+
+      ul.features li span {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        margin-top: 6px;
+        background: rgba(34, 197, 94, 0.9);
+      }
+
+      .section-title {
+        margin-top: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #e5e7eb;
+      }
+
+      .timeline {
+        margin-top: 8px;
+        border-radius: 14px;
+        border: 1px dashed rgba(34, 197, 94, 0.6);
+        padding: 10px 12px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .timeline-step {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 4px 8px;
+        align-items: flex-start;
+        margin-bottom: 4px;
+      }
+
       .timeline-step span {
-        color: #4ade80;
-        font-weight: 700;
+        font-size: 12px;
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        border: 1px solid rgba(34, 197, 94, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #bbf7d0;
       }
-      footer {
-        margin-top: 20px;
-        padding-top: 10px;
-        border-top: 1px solid rgba(34, 197, 94, 0.4);
+
+      .extra-box {
+        margin-top: 8px;
+        border-radius: 14px;
+        border: 1px solid rgba(34, 197, 94, 0.55);
+        background: radial-gradient(
+          circle at top left,
+          rgba(34, 197, 94, 0.16),
+          transparent 60%
+        );
+        padding: 10px 12px;
         font-size: 12px;
         color: var(--muted);
+      }
+
+      .extra-box strong {
+        color: var(--accent-soft);
+      }
+
+      .btn-row {
+        margin-top: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .btn-main {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 9px 16px;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 700;
+        background: linear-gradient(135deg, #22c55e, #15803d);
+        color: #ecfdf5;
+        box-shadow: 0 14px 32px rgba(22, 163, 74, 0.9);
+        transition: transform 0.06s ease, box-shadow 0.15s ease,
+          filter 0.15s ease;
+      }
+
+      .btn-main:hover {
+        filter: brightness(1.04);
+      }
+
+      .btn-main:active {
+        transform: translateY(1px);
+        box-shadow: none;
+      }
+
+      .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: transparent;
+        font-size: 12px;
+        color: #e5e7eb;
+        cursor: pointer;
+      }
+
+      .compare-list {
+        margin-top: 6px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .compare-list strong {
+        color: #e5e7eb;
+      }
+
+      .divider {
+        margin: 10px 0;
+        height: 1px;
+        background: radial-gradient(
+          circle,
+          rgba(34, 197, 94, 0.7),
+          transparent
+        );
+        opacity: 0.8;
+      }
+
+      footer {
+        margin-top: 18px;
+        font-size: 11px;
+        color: #6b7280;
         display: flex;
         justify-content: space-between;
         gap: 8px;
         flex-wrap: wrap;
       }
-      footer a {
-        color: #6ee7b7;
+
+      footer span {
+        white-space: nowrap;
+      }
+
+      @media (max-width: 520px) {
+        footer span {
+          white-space: normal;
+        }
+      }
+
+      a {
+        color: #bbf7d0;
         text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
       }
     </style>
   </head>
-
   <body>
-    <div class="wrap">
-      <div class="top-nav">
-        <span>InvitePro • חבילה מתקדמת</span>
-        <div style="display: flex; gap: 10px">
-          <a href="index.html">🏠 דף מערכת</a>
-          <a href="landing.html">📦 כל החבילות</a>
-          <a href="event-builder.html?tier=pro">✨ יצירת אירוע מתקדם</a>
-        </div>
-      </div>
-
+    <main aria-label="InvitePro – חבילת Pro מתקדמת">
       <header>
-        <div class="badge">החבילה הכי משתלמת</div>
-        <h1>חבילה מתקדמת – InvitePro</h1>
-        <div class="tagline">
-          לא רק טופס יפה – גם לוח ניהול מלא, ספירת מוזמנים וייצוא לאקסל.
+        <div class="top-row">
+          <div>
+            <h1>
+              חבילת Pro – InvitePro
+              <span class="logo-pill">Advanced RSVP Package • 99₪</span>
+            </h1>
+            <div class="subtitle">
+              חבילה <strong>מתקדמת ומקצועית</strong> לניהול אירועים גדולים –
+              עם שדות חכמים, יותר מידע, ויותר שליטה על כל אורח.
+            </div>
+          </div>
+          <nav aria-label="ניווט">
+            <a href="index.html">🏠 דף הבית</a>
+            <a href="landing.html">📦 כל החבילות</a>
+            <a href="event-builder.html?tier=pro">✨ יצירת אירוע Pro</a>
+            <a href="events.html">📋 ניהול אירועים</a>
+          </nav>
         </div>
       </header>
 
-      <div class="layout">
-        <!-- צד שמאל – פירוט החבילה -->
-        <section class="card">
-          <h2>מה כוללת החבילה המתקדמת?</h2>
-          <p>
-            החבילה המתקדמת מתאימה למי שרוצה שליטה מלאה על המוזמנים: מי מגיע,
-            כמה זוגות, כמה משפחות – והכול בטבלה מסודרת עם אקסל מוכן לאולם.
-          </p>
-
-          <div class="price">
-            99₪
-            <small>• תשלום חד־פעמי לכל אירוע</small>
+      <section class="layout">
+        <!-- צד שמאל – מה מקבלים -->
+        <section class="card" aria-label="מה כוללת חבילת Pro">
+          <h2>מה יש בחבילת Pro?</h2>
+          <div class="price-row">
+            <div class="price-main">99₪</div>
+            <div class="price-unit">חד פעמי לאירוע</div>
           </div>
-
-          <ul>
-            <li>טופס RSVP מעוצב ומותאם לנייד</li>
-            <li>שמירת כל הנתונים ב־Supabase (ענן מאובטח)</li>
-            <li>לוח ניהול מלא למארגן האירוע (מתוך דף ההזמנה)</li>
-            <li>ספירת מגיעים / לא מגיעים / זוגות / משפחות</li>
-            <li>ייצוא לקובץ אקסל מוכן לאולם / קייטרינג</li>
-          </ul>
-
-          <div class="cta-box">
-            <button
-              class="btn-main"
-              onclick="window.open('https://wa.me/972584525204?text=היי,%20אני%20מעוניין/ת%20בחבילה%20המתקדמת%20של%20InvitePro', '_blank')"
-            >
-              💬 סגירת חבילה מתקדמת בוואטסאפ
-            </button>
-
-            <a
-              class="btn-secondary"
-              href="event-builder.html?tier=pro"
-            >
-              ➜ המשך ליצירת אירוע לאחר תשלום
-            </a>
+          <div class="price-note">
+            מיועדת לאירועים רציניים – חתונות גדולות, חברות, ארגונים, הפקות
+            ועסקים שרוצים לשלוט בכל פרט.
           </div>
-
-          <div
-            style="margin-top: 12px; font-size: 12px; color: var(--muted)"
-          >
-            התשלום נעשה בביט / פייבוקס / העברה – בתיאום מול נתנאל. לאחר התשלום
-            אפשר ליצור אירוע מתקדם עם לוח ניהול מלא ואקסל.
-          </div>
-        </section>
-
-        <!-- צד ימין – למי זה מתאים / איך זה עובד -->
-        <section class="card">
-          <h2>למי זה מתאים ואיך זה עובד?</h2>
-          <p>
-            מתאים לחתונות קטנות, בר / בת מצווה, אירועי חברה וכל אירוע שבו חשוב
-            לדעת בדיוק כמה אנשים מגיעים.
-          </p>
 
           <div class="pill-row">
-            <div class="pill">בר / בת מצווה</div>
-            <div class="pill">חתונות קטנות</div>
-            <div class="pill">אירועי חברה</div>
-            <div class="pill">אירועים עסקיים</div>
+            <span class="pill pill-main">שדות מתקדמים לאורחים</span>
+            <span class="pill">מעקב חכם אחרי הגעה והסעות</span>
+            <span class="pill">מוכן לאירועים גדולים</span>
           </div>
 
+          <ul class="features">
+            <li>
+              <span></span>
+              <div>כולל כל מה שב־Basic (עיצוב, הערה למארח, טלגרם, לוח ניהול).</div>
+            </li>
+            <li>
+              <span></span>
+              <div>
+                שדה
+                <strong>"שיר מועדף"</strong>
+                – האורח יכול להציע שיר לחופה / כניסה / רחבת ריקודים.
+              </div>
+            </li>
+            <li>
+              <span></span>
+              <div>
+                שדה
+                <strong>"הסעות"</strong>
+                – האורח מסמן אם צריך הסעה, מאיפה ומתי (אם תפתח את זה).
+              </div>
+            </li>
+            <li>
+              <span></span>
+              <div>
+                שדות מתקדמים נוספים (למשל:
+                <strong>אזור ישיבה</strong>, <strong>מיקום מועדף</strong>,
+                <strong>אורחים מיוחדים</strong> וכו׳ – תלוי איך תגדיר).
+              </div>
+            </li>
+            <li>
+              <span></span>
+              <div>
+                כל המידע המורחב נשלח לטלגרם + נשמר בלוח הניהול שלך – כדי שתראה
+                הכול במקום אחד.
+              </div>
+            </li>
+          </ul>
+
+          <div class="divider"></div>
+
+          <div class="section-title">איך זה נראה לאורח?</div>
+          <p>
+            האורח רואה טופס RSVP מעוצב ברמת Pro, כולל שדות נוספות מעבר לבסיס
+            – הוא מרגיש שהאירוע מנוהל ברמה גבוהה, ואתה מקבל מידע איכותי יותר.
+          </p>
+
+          <div class="btn-row">
+            <button
+              type="button"
+              class="btn-main"
+              onclick="location.href='rsvp.html?tier=pro&demo=1'"
+            >
+              👀 צפייה בטופס לדוגמה (Pro)
+            </button>
+            <button
+              type="button"
+              class="btn-ghost"
+              onclick="location.href='payment.html?tier=pro'"
+            >
+              💳 מעבר לתשלום על החבילה
+            </button>
+          </div>
+
+          <div class="compare-list">
+            • חבילת
+            <strong>Basic</strong>
+            – מעולה, אבל בלי שדות מתקדמים (אין שיר, אין הסעות). <br />
+            • חבילת
+            <strong>Premium</strong>
+            – מוסיפה אזור מותאם אישית + קבלת מתנות בביט + ברכות מיוחדות. <br />
+            • Pro היא הבחירה למי שרוצה שליטה, בלי כל מה שמגיע עם Premium.
+          </div>
+        </section>
+
+        <!-- צד ימין – איך משתמשים ב-Pro -->
+        <section class="card" aria-label="איך מתבצע התהליך בחבילת Pro">
+          <h2>איך משתמשים בחבילת Pro?</h2>
+          <p>
+            התהליך דומה מאוד ל-Basic, רק שהפעם הטופס שלך “חכם יותר” ונותן לך
+            הרבה יותר מידע על האורחים.
+          </p>
+
+          <div class="section-title">צעד אחר צעד</div>
           <div class="timeline">
-            <div class="timeline-step" style="margin-top: 10px">
-              <span>1.</span>
-              <div>פונים אל נתנאל בוואטסאפ וסוגרים חבילה מתקדמת (99₪).</div>
+            <div class="timeline-step">
+              <span>1</span>
+              <div>
+                בוחרים חבילת Pro במסך החבילות או דרך דף זה (כפתור תשלום למטה).
+              </div>
             </div>
             <div class="timeline-step">
-              <span>2.</span>
-              <div>מעבירים פרטי אירוע: שם, תאריך, מיקום + סיסמת מנהל.</div>
+              <span>2</span>
+              <div>
+                משלמים עבור החבילה בדף התשלום (ביט / PayBox / העברה בנקאית) –
+                מקבלים גישה ל־Event Builder כ־Pro.
+              </div>
             </div>
             <div class="timeline-step">
-              <span>3.</span>
-              <div>יוצרים את האירוע דרך InvitePro ומקבלים לינק להזמנה + לוח ניהול.</div>
+              <span>3</span>
+              <div>
+                ממלאים ב־Event Builder את פרטי האירוע, ובוחרים שהאירוע הוא ברמת
+                Pro (כולל שדות מתקדמים).
+              </div>
             </div>
             <div class="timeline-step">
-              <span>4.</span>
-              <div>שולחים את הלינק לכל האורחים בוואטסאפ / SMS.</div>
+              <span>4</span>
+              <div>
+                מקבלים
+                <strong>קישור להזמנה ברמת Pro</strong>
+                – שולחים את הקישור לכל המוזמנים.
+              </div>
             </div>
             <div class="timeline-step">
-              <span>5.</span>
-              <div>נכנסים ללוח הניהול, רואים את כל המוזמנים ומוציאים אקסל מסודר.</div>
+              <span>5</span>
+              <div>
+                כל אישור הגעה מעודכן לטלגרם + שמור במסד נתונים, כולל השיר,
+                ההסעות והמידע המתקדם.
+              </div>
+            </div>
+            <div class="timeline-step">
+              <span>6</span>
+              <div>
+                משתמשים בלוח הניהול כדי לראות מי מגיע, כמה אוטובוסים צריך, מי
+                רוצה שיר מסוים – ומוציאים אקסל מסודר לאירוע.
+              </div>
             </div>
           </div>
 
-          <p style="margin-top: 12px; font-size: 13px; color: var(--muted)">
-            אפשר לשדרג בכל שלב לחבילת פרימיום – בתשלום ההפרש בלבד.
+          <div class="section-title">מה נותן לך יתרון ב-Pro?</div>
+          <div class="extra-box">
+            <strong>הבדל גדול בין “מי מגיע” לבין “איך הוא מגיע”.</strong>
+            <br />
+            בחבילת Pro אתה לא רק יודע אם האורח מגיע – אתה יודע
+            <strong>מה הוא אוהב, מאיפה הוא מגיע, ואם הוא צריך עזרה בהגעה</strong>.
+            זה ההבדל בין טופס רגיל לבין ניהול אירוע ברמה גבוהה.
+          </div>
+
+          <p style="margin-top: 10px; font-size: 12px; color: var(--muted)">
+            Pro מתאים במיוחד למי שרוצה שהאירוע יתנהל "כמו הפקה" – אבל עדיין
+            בלי להסתבך עם מערכת כבדה או מנוי חודשי. שלם פעם אחת על האירוע – וזהו.
           </p>
         </section>
-      </div>
+      </section>
 
       <footer>
-        <span>InvitePro • Pro RSVP Package</span>
+        <span>InvitePro • Pro Package</span>
         <span>יוצר המערכת: Netanel Ben Haim</span>
       </footer>
-    </div>
+    </main>
   </body>
 </html>

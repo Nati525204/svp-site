@@ -6,258 +6,643 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       :root {
-        --bg: #020617;
-        --card: #0b1220;
-        --muted: #9ca3af;
+        --bg1: #020617;
+        --bg2: #1d2a4a;
+        --card: rgba(15, 23, 42, 0.98);
+        --border: rgba(148, 163, 184, 0.6);
         --text: #e5e7eb;
+        --muted: #9ca3af;
+        --accent: #3b82f6;
+        --accent2: #1d4ed8;
+        --ok: #22c55e;
+        --danger: #f97373;
       }
+
       * {
         box-sizing: border-box;
       }
+
       body {
         margin: 0;
         min-height: 100vh;
-        background: radial-gradient(circle at top, #1d2a4a, #020617 55%, #000);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at top, var(--bg2), var(--bg1) 58%, #000);
         font-family: "Heebo", system-ui, -apple-system, BlinkMacSystemFont,
           "Segoe UI", sans-serif;
         color: var(--text);
+      }
+
+      main {
+        width: min(880px, 96vw);
+        background:
+          radial-gradient(circle at top, rgba(59, 130, 246, 0.18), transparent 55%),
+          var(--card);
+        border-radius: 26px;
+        padding: 22px 22px 24px;
+        border: 1px solid var(--border);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.75);
+      }
+
+      header {
         display: flex;
-        justify-content: center;
-        padding: 24px 12px 32px;
-      }
-      .wrap {
-        width: min(640px, 100%);
-        background: rgba(15, 23, 42, 0.96);
-        border-radius: 24px;
-        padding: 20px 20px 22px;
-        border: 1px solid rgba(148, 163, 184, 0.4);
-        box-shadow: 0 22px 70px rgba(0, 0, 0, 0.7);
-      }
-      .top-nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 13px;
-        color: var(--muted);
-        margin-bottom: 10px;
-      }
-      .top-nav a {
-        color: #93c5fd;
-        text-decoration: none;
-      }
-      h1 {
-        margin: 0 0 6px;
-        font-size: clamp(22px, 3vw, 28px);
-        font-weight: 900;
-        color: #bfdbfe;
-      }
-      .sub {
-        font-size: 14px;
-        color: var(--muted);
+        flex-direction: column;
+        gap: 6px;
         margin-bottom: 14px;
       }
-      .card {
-        background: #020617;
-        border-radius: 18px;
-        border: 1px solid rgba(148, 163, 184, 0.35);
-        padding: 16px 14px 16px;
+
+      .top-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(24px, 3vw, 30px);
+        font-weight: 800;
+      }
+
+      .logo-pill {
+        font-size: 11px;
+        padding: 3px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(59, 130, 246, 0.8);
+        color: #bfdbfe;
+        background: rgba(15, 23, 42, 0.96);
+        margin-inline-start: 6px;
+      }
+
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      nav a {
+        font-size: 13px;
+        text-decoration: none;
+        color: #bfdbfe;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.98);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .subtitle {
+        color: var(--muted);
         font-size: 14px;
       }
-      .badge {
-        display: inline-block;
-        font-size: 12px;
-        padding: 3px 10px;
-        border-radius: 999px;
-        background: rgba(15, 23, 42, 0.9);
-        border: 1px solid rgba(59, 130, 246, 0.6);
-        color: #93c5fd;
-        margin-bottom: 6px;
+
+      .subtitle strong {
+        color: var(--text);
       }
-      .price {
+
+      .layout {
+        display: grid;
+        gap: 16px;
+        margin-top: 10px;
+      }
+
+      @media (min-width: 780px) {
+        .layout {
+          grid-template-columns: 1.1fr 0.9fr;
+        }
+      }
+
+      .card {
+        border-radius: 20px;
+        padding: 14px 14px 16px;
+        border: 1px solid rgba(148, 163, 184, 0.55);
+        background: rgba(15, 23, 42, 0.97);
+      }
+
+      .card h2 {
+        margin: 0 0 8px;
+        font-size: 16px;
+      }
+
+      .plan-name {
+        font-size: 18px;
+        font-weight: 800;
+      }
+
+      .plan-price {
         font-size: 22px;
         font-weight: 800;
-        margin: 6px 0 4px;
-      }
-      .price small {
-        font-size: 12px;
-        color: var(--muted);
-        font-weight: 400;
-      }
-      .section-title {
-        margin-top: 10px;
-        font-size: 13px;
-        font-weight: 700;
-      }
-      .pay-method {
-        font-size: 13px;
-        color: var(--muted);
         margin-top: 4px;
       }
-      .pay-method a {
-        color: #93c5fd;
-        text-decoration: underline;
-      }
-      .checkbox-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
+
+      .price-unit {
         font-size: 13px;
-        margin-top: 14px;
+        color: var(--muted);
       }
-      .checkbox-row input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        accent-color: #22c55e;
+
+      .plan-desc {
+        margin-top: 4px;
+        font-size: 13px;
+        color: var(--muted);
       }
+
+      .badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+      }
+
+      .badge {
+        font-size: 11px;
+        padding: 3px 7px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        color: #e5e7eb;
+      }
+
+      .badge-green {
+        border-color: rgba(34, 197, 94, 0.85);
+        color: #bbf7d0;
+      }
+
+      .badge-gold {
+        border-color: rgba(250, 204, 21, 0.9);
+        color: #fef3c7;
+      }
+
+      ul.features {
+        list-style: none;
+        padding: 0;
+        margin: 8px 0 0;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      ul.features li {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 4px;
+      }
+
+      ul.features li span {
+        font-size: 11px;
+        margin-top: 4px;
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.9);
+      }
+
+      .pay-box {
+        border-radius: 16px;
+        padding: 12px 12px 12px;
+        border: 1px dashed rgba(148, 163, 184, 0.6);
+        background: rgba(15, 23, 42, 0.98);
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .pay-row {
+        margin-top: 4px;
+      }
+
+      .pay-row strong {
+        color: #e5e7eb;
+      }
+
+      .pay-methods {
+        margin-top: 8px;
+        display: grid;
+        gap: 6px;
+        font-size: 13px;
+      }
+
+      .pay-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: rgba(15, 23, 42, 0.96);
+        color: #bfdbfe;
+        text-decoration: none;
+        font-size: 12px;
+      }
+
+      .pay-link small {
+        font-size: 11px;
+        color: #9ca3af;
+      }
+
+      .warn {
+        margin-top: 8px;
+        font-size: 11px;
+        color: #fca5a5;
+      }
+
+      .confirm-row {
+        margin-top: 12px;
+        font-size: 13px;
+        color: var(--muted);
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+      }
+
+      .confirm-row input[type="checkbox"] {
+        margin-top: 2px;
+      }
+
       .btn-next {
-        width: 100%;
-        padding: 10px 0;
-        margin-top: 10px;
+        margin-top: 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 10px 16px;
         border-radius: 999px;
         border: none;
         cursor: pointer;
-        background: #111827;
-        color: #6b7280;
-        font-weight: 700;
         font-size: 14px;
-        transition: background 0.15s ease, color 0.15s ease,
-          transform 0.06s ease, box-shadow 0.15s ease;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        color: #f9fafb;
+        box-shadow: 0 14px 36px rgba(37, 99, 235, 0.9);
+        opacity: 0.35;
+        pointer-events: none;
+        transition: opacity 0.15s ease, transform 0.06s ease, box-shadow 0.15s ease;
       }
+
       .btn-next.enabled {
-        background: linear-gradient(135deg, #22c55e, #16a34a);
-        color: #ecfdf5;
-        box-shadow: 0 10px 26px rgba(22, 163, 74, 0.6);
+        opacity: 1;
+        pointer-events: auto;
       }
-      .btn-next.enabled:active {
+
+      .btn-next:active {
         transform: translateY(1px);
         box-shadow: none;
       }
-      .note {
-        margin-top: 10px;
-        font-size: 12px;
+
+      .info-note {
+        margin-top: 6px;
+        font-size: 11px;
         color: var(--muted);
+      }
+
+      .free-note {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      footer {
+        margin-top: 18px;
+        font-size: 11px;
+        color: #6b7280;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      footer span {
+        white-space: nowrap;
+      }
+
+      @media (max-width: 520px) {
+        footer span {
+          white-space: normal;
+        }
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      code {
+        font-size: 11px;
+        background: rgba(15, 23, 42, 0.95);
+        padding: 1px 6px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        direction: ltr;
+        unicode-bidi: plaintext;
       }
     </style>
   </head>
   <body>
-    <div class="wrap">
-      <div class="top-nav">
-        <span>InvitePro • תשלום חבילה</span>
-        <div style="display:flex;gap:10px;">
-          <a href="landing.html">📦 חבילות</a>
-          <a href="event-builder.html">✨ יצירת אירוע</a>
+    <main aria-label="InvitePro – תשלום חבילה">
+      <header>
+        <div class="top-row">
+          <div>
+            <h1>
+              תשלום עבור חבילת InvitePro
+              <span class="logo-pill">RSVP • Netanel Ben Haim</span>
+            </h1>
+            <div class="subtitle" id="subtitle">
+              בחרת חבילה. לפני יצירת האירוע, מבצעים תשלום ואז ממשיכים ל־Event
+              Builder.
+            </div>
+          </div>
+          <nav aria-label="ניווט">
+            <a href="index.html">🏠 דף הבית</a>
+            <a href="landing.html">📦 חבילות</a>
+            <a href="event-builder.html">✨ יצירת אירוע</a>
+            <a href="events.html">📋 ניהול אירועים</a>
+          </nav>
         </div>
-      </div>
+      </header>
 
-      <h1 id="title">תשלום עבור חבילה</h1>
-      <div class="sub" id="subtitle"></div>
+      <section class="layout">
+        <!-- צד שמאל – פרטי החבילה -->
+        <section class="card" aria-label="פרטי החבילה">
+          <h2>📦 פרטי החבילה שבחרת</h2>
+          <div class="plan-name" id="planName">חבילה</div>
+          <div class="plan-price">
+            <span id="planPrice">—</span>
+            <span class="price-unit" id="priceUnit">חד פעמי לאירוע</span>
+          </div>
+          <div class="plan-desc" id="planDesc"></div>
 
-      <div class="card">
-        <div class="badge" id="badge">חבילה</div>
-        <div class="price" id="price"></div>
+          <ul class="features" id="planFeatures">
+            <!-- ימולא דינמית לפי החבילה -->
+          </ul>
 
-        <div class="section-title">תשלום בביט</div>
-        <div class="pay-method">
-          העברה בביט למספר:
-          <strong>058-4525204</strong><br />
-          שם מקבל התשלום: <strong>נתנאל בן חיים</strong>
-        </div>
+          <div class="badge-row" id="badgeRow">
+            <!-- באדג׳ים דינמיים -->
+          </div>
 
-        <div class="section-title">תשלום בפייבוקס</div>
-        <div class="pay-method" id="payboxBlock">
-           קישור לתשלום בפייבוקס כרגע לא עובד: 
-          <br />
-          <!-- תחליף כאן ללינקים האמיתיים שלך -->
-          <a id="payboxLink" href="#" target="_blank">פתח פייבוקס לתשלום</a>
-        </div>
+          <div class="info-note">
+            אפשר תמיד להתחיל בחבילה חינמית ולשדרג באירוע הבא, אבל החבילה
+            שנבחרה כאן נועדה לאירוע הזה בלבד.
+          </div>
+        </section>
 
-        <div class="section-title">העברה בנקאית</div>
-        <div class="pay-method">
-          בנק: <strong>10</strong> | סניף: <strong>998</strong> | חשבון:
-          <strong>15551442</strong><br />
-         
-        </div>
+        <!-- צד ימין – תשלום ואישור -->
+        <section class="card" aria-label="תשלום ואישור">
+          <h2 id="payTitle">💳 ביצוע התשלום</h2>
 
-        <div class="checkbox-row">
-          <input type="checkbox" id="paidCheck" />
-          <label for="paidCheck">אני מאשר/ת שסיימתי לשלם עבור החבילה.</label>
-        </div>
+          <!-- FREE INFO -->
+          <div id="freeSection" class="free-note hidden">
+            חבילה זו היא <strong>חינמית</strong> ואינה דורשת תשלום. אפשר להמשיך
+            ישירות ליצירת האירוע.
+          </div>
 
-        <button class="btn-next" id="nextBtn" disabled>
-          המשך ליצירת אירוע
-        </button>
+          <!-- PAID INFO -->
+          <div id="paidSection" class="pay-box">
+            <div class="pay-row">
+              <strong>איך משלמים?</strong>
+            </div>
+            <div class="pay-row">
+              תשלום עבור החבילה מתבצע מחוץ למערכת InvitePro, באמצעות
+              <strong>ביט / PayBox / העברה בנקאית</strong>.
+            </div>
 
-        <div class="note">
-          בלי תשלום החבילה לא מאושרת. רק חבילת חינם זמינה ללא תשלום. שים לב – אין
-          כאן בדיקה אוטומטית מול הבנק או ביט, זה מבוסס על אמון מולך בתור בעל
-          המערכת.
-        </div>
-      </div>
-    </div>
+            <div class="pay-methods">
+              <div>
+                ✅
+                <strong>ביט – מספר טלפון:</strong>
+                <br />
+                שלם/י בביט למספר:
+                <code>0584525204</code>
+              </div>
+
+              <div>
+                ✅
+                <strong>PayBox – קישור תשלום:</strong>
+                <br />
+                <a
+                  href="#"
+                  class="pay-link"
+                  id="payboxLink"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  פתח קישור PayBox לחבילה זו
+                  <small>(להחליף לקישור אמיתי שלך)</small>
+                </a>
+              </div>
+
+              <div>
+                ✅
+                <strong>העברה בנקאית:</strong>
+                <br />
+                אפשר לעדכן כאן טקסט עם פרטי החשבון (בנק, סניף, מספר חשבון) אם
+                תרצה.
+              </div>
+            </div>
+
+            <div class="warn">
+              ⚠️ המערכת לא מחוברת לביט/PayBox, ולא בודקת אוטומטית אם שולם.
+              <br />
+              אתה סומך על עצמך/על הלקוח שיבצע תשלום ורק אז ממשיכים ליצירת האירוע.
+            </div>
+          </div>
+
+          <div id="confirmContainer" class="confirm-row">
+            <input type="checkbox" id="confirmPaid" />
+            <label for="confirmPaid">
+              אני מאשר/ת שביצעתי תשלום עבור החבילה שבחרתי, ואמשיך עכשיו ליצירת
+              האירוע במערכת InvitePro.
+            </label>
+          </div>
+
+          <button class="btn-next" id="nextBtn" type="button">
+            המשך ליצירת האירוע (Event Builder)
+          </button>
+
+          <div class="info-note" id="underBtnNote">
+            אחרי לחיצה, תעבור/י ל־Event Builder עם החבילה שנבחרה, ולא יהיה צורך
+            לחזור לדף זה לאותו אירוע.
+          </div>
+        </section>
+      </section>
+
+      <footer>
+        <span>InvitePro • NBH RSVP SYSTEM</span>
+        <span>לתמיכה: suppornbh@gmail.com</span>
+      </footer>
+    </main>
 
     <script>
       const params = new URLSearchParams(location.search);
-      const tier = params.get("tier") || "basic";
+      let tier = params.get("tier") || "basic";
 
       const tiers = {
         free: {
-          name: "חבילת חינם",
+          name: "Free – חינם",
           price: "0₪",
-          desc: "חבילה ללא תשלום (לא צריך דף זה).",
-          paybox: "#",
+          desc: "טופס בסיסי לאישור הגעה, בלי תשלום ובלי פיצ׳רים מתקדמים.",
+          badges: ["טופס פשוט", "RSVP בסיסי"],
+          features: [
+            "שם + טלפון + סטטוס הגעה + תפריט.",
+            "לוח ניהול בסיסי מתוך הטופס עצמו.",
+            "מתאים לניסיון ראשון או אירועים קטנים.",
+          ],
         },
         basic: {
-          name: "חבילה בסיסית",
+          name: "Basic – 49₪",
           price: "49₪",
-          desc: "טופס מעוצב וניהול אישורי הגעה.",
-          paybox: "PAYBOX_LINK_BASIC",
+          desc: "חבילת כניסה – טופס מעוצב + הערה למארח + ניהול נוח.",
+          badges: ["הכי משתלם לרוב האירועים", "ניהול למארח"],
+          features: [
+            "כולל את כל מה שבחינם.",
+            'שדה "הערה למארח" שהאורחים יכולים למלא.',
+            "עיצוב יפה ומודרני לטופס ההזמנה.",
+            "עדכון אישורי הגעה עבורך בצורה מסודרת.",
+          ],
         },
         pro: {
-          name: "חבילה מתקדמת",
+          name: "Pro – 99₪",
           price: "99₪",
-          desc: "טופס + לוח ניהול + אקסל.",
-          paybox: "PAYBOX_LINK_PRO",
+          desc: "חבילת ניהול מתקדמת – כולל אזור מתקדם עם שיר, הסעות ועוד.",
+          badges: ["למי שאוהב שליטה", "מושלם לאירועים גדולים"],
+          features: [
+            "כולל את כל מה שב־Basic.",
+            "אזור מתקדם בטופס (שיר מועדף, סטטוס הסעות ועוד).",
+            "מידע מלא מסוכם עבורך עם פרטים מורחבים.",
+            "מתאים לחתונות גדולות / חברות / הפקות.",
+          ],
         },
         premium: {
-          name: "חבילת פרימיום",
+          name: "Premium – 149₪",
           price: "149₪",
-          desc: "עיצוב יוקרתי, לוח ניהול, אקסל ותמיכה.",
-          paybox: "PAYBOX_LINK_PREMIUM",
+          desc: "הכול כלול – אזור מותאם אישית, קישור ביט למתנה, אזור ברכות ועוד.",
+          badges: ["יוקרתי ביותר", "אזור מותאם אישית", "מתנות בביט"],
+          features: [
+            "כולל את כל מה שב־Pro.",
+            "אזור שאתה מגדיר לבד ב־Event Builder (טקסט + כפתורים).",
+            'כפתור "שליחת מתנה בביט" + אזור ברכות מיוחד.',
+            "מראה יוקרתי לטופס ושדרוג חוויית המוזמנים.",
+          ],
         },
       };
 
-      const t = tiers[tier] || tiers.basic;
-
-      document.getElementById("title").textContent =
-        "תשלום עבור " + t.name;
-      document.getElementById("subtitle").textContent = t.desc;
-      document.getElementById("badge").textContent = t.name;
-      document.getElementById("price").innerHTML =
-        t.price + ' <small>• תשלום חד־פעמי לכל אירוע</small>';
-
-      const payboxLink = document.getElementById("payboxLink");
-      if (t.paybox && t.paybox !== "#") {
-        payboxLink.href = t.paybox;
-      } else {
-        // אם אין לינק – אפשר להסתיר את הבלוק של פייבוקס
-        document.getElementById("payboxBlock").style.display = "none";
+      if (!tiers[tier]) {
+        tier = "basic";
       }
 
-      const paidCheck = document.getElementById("paidCheck");
-      const nextBtn = document.getElementById("nextBtn");
+      const data = tiers[tier];
 
-      paidCheck.addEventListener("change", () => {
-        if (paidCheck.checked) {
-          nextBtn.disabled = false;
+      // DOM refs
+      const planNameEl = document.getElementById("planName");
+      const planPriceEl = document.getElementById("planPrice");
+      const planDescEl = document.getElementById("planDesc");
+      const planFeaturesEl = document.getElementById("planFeatures");
+      const badgeRowEl = document.getElementById("badgeRow");
+      const payTitleEl = document.getElementById("payTitle");
+      const freeSection = document.getElementById("freeSection");
+      const paidSection = document.getElementById("paidSection");
+      const confirmContainer = document.getElementById("confirmContainer");
+      const confirmPaid = document.getElementById("confirmPaid");
+      const nextBtn = document.getElementById("nextBtn");
+      const subtitleEl = document.getElementById("subtitle");
+      const underBtnNote = document.getElementById("underBtnNote");
+      const payboxLink = document.getElementById("payboxLink");
+
+      // מילוי פרטי החבילה
+      planNameEl.textContent = data.name;
+      planPriceEl.textContent = data.price;
+      planDescEl.textContent = data.desc;
+
+      // תיאור למעלה
+      subtitleEl.textContent =
+        tier === "free"
+          ? "בחרת חבילת Free (חינם). אין צורך בתשלום, אפשר להמשיך ישר ליצירת האירוע."
+          : "בחרת חבילה בתשלום. מבצעים תשלום ואז מאשרים שממשיכים ליצירת האירוע.";
+
+      // רשימת פיצ׳רים
+      planFeaturesEl.innerHTML = "";
+      data.features.forEach((f) => {
+        const li = document.createElement("li");
+        const dot = document.createElement("span");
+        const txt = document.createElement("div");
+        txt.textContent = f;
+        li.appendChild(dot);
+        li.appendChild(txt);
+        planFeaturesEl.appendChild(li);
+      });
+
+      // באדג׳ים
+      badgeRowEl.innerHTML = "";
+      data.badges.forEach((b, idx) => {
+        const span = document.createElement("span");
+        span.className = "badge";
+        if (tier === "pro" || tier === "basic") {
+          if (idx === 0) span.classList.add("badge-green");
+        }
+        if (tier === "premium") {
+          span.classList.add("badge-gold");
+        }
+        span.textContent = b;
+        badgeRowEl.appendChild(span);
+      });
+
+      // התאמה Free לעומת בתשלום
+      if (tier === "free") {
+        payTitleEl.textContent = "חבילה חינמית – אין צורך בתשלום";
+        freeSection.classList.remove("hidden");
+        paidSection.classList.add("hidden");
+        confirmContainer.classList.add("hidden");
+
+        // אין צורך באישור – מאפשרים מעבר מיד
+        nextBtn.classList.add("enabled");
+        nextBtn.style.opacity = 1;
+        nextBtn.style.pointerEvents = "auto";
+        underBtnNote.textContent =
+          "אין תשלום בחבילה זו. בלחיצה תמשיך/י ישירות ליצירת האירוע ב־Event Builder.";
+      } else {
+        payTitleEl.textContent = "💳 ביצוע התשלום לחבילה זו";
+        freeSection.classList.add("hidden");
+        paidSection.classList.remove("hidden");
+        confirmContainer.classList.remove("hidden");
+        nextBtn.classList.remove("enabled");
+        nextBtn.style.opacity = 0.35;
+        nextBtn.style.pointerEvents = "none";
+        underBtnNote.textContent =
+          "אחרי שסימנת ששילמת, תוכל/י להמשיך ל־Event Builder עם החבילה שנבחרה.";
+      }
+
+      // קישור PayBox – כאן אפשר לשים קישור אמיתי לכל חבילה
+      const payboxLinksByTier = {
+        basic: "#", // להחליף לקישור PayBox אמיתי לחבילת Basic
+        pro: "#", // להחליף לקישור PayBox אמיתי לחבילת Pro
+        premium: "#", // להחליף לקישור PayBox אמיתי לחבילת Premium
+      };
+
+      if (payboxLink && tier !== "free") {
+        const href = payboxLinksByTier[tier] || "#";
+        payboxLink.href = href;
+      }
+
+      // צ'קבוקס – מפעיל/מכבה את הכפתור
+      confirmPaid.addEventListener("change", () => {
+        if (confirmPaid.checked || tier === "free") {
           nextBtn.classList.add("enabled");
+          nextBtn.style.opacity = 1;
+          nextBtn.style.pointerEvents = "auto";
         } else {
-          nextBtn.disabled = true;
           nextBtn.classList.remove("enabled");
+          nextBtn.style.opacity = 0.35;
+          nextBtn.style.pointerEvents = "none";
         }
       });
 
+      // מעבר ליצירת אירוע
       nextBtn.addEventListener("click", () => {
-        if (nextBtn.disabled) return;
+        if (
+          tier !== "free" &&
+          (!confirmPaid || (confirmPaid && !confirmPaid.checked))
+        ) {
+          return;
+        }
+        // עובר ל-Event Builder עם החבילה שסומנה + דגל paid=ok
         location.href = `event-builder.html?tier=${tier}&paid=ok`;
       });
     </script>
