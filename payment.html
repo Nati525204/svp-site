@@ -14,8 +14,6 @@
         --muted: #9ca3af;
         --accent: #3b82f6;
         --accent2: #1d4ed8;
-        --ok: #22c55e;
-        --danger: #f97373;
       }
 
       * {
@@ -246,17 +244,45 @@
         color: #fca5a5;
       }
 
-      .confirm-row {
+      .code-row {
         margin-top: 12px;
         font-size: 13px;
         color: var(--muted);
         display: flex;
-        gap: 8px;
-        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
       }
 
-      .confirm-row input[type="checkbox"] {
-        margin-top: 2px;
+      .code-label {
+        font-size: 13px;
+        color: #e5e7eb;
+      }
+
+      .code-input {
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: rgba(15, 23, 42, 0.96);
+        padding: 7px 11px;
+        font-size: 13px;
+        color: #e5e7eb;
+        outline: none;
+      }
+
+      .code-input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.6);
+      }
+
+      .code-hint {
+        font-size: 11px;
+        color: #9ca3af;
+      }
+
+      .code-error {
+        margin-top: 4px;
+        font-size: 11px;
+        color: #fecaca;
+        display: none;
       }
 
       .btn-next {
@@ -274,14 +300,7 @@
         background: linear-gradient(135deg, var(--accent), var(--accent2));
         color: #f9fafb;
         box-shadow: 0 14px 36px rgba(37, 99, 235, 0.9);
-        opacity: 0.35;
-        pointer-events: none;
         transition: opacity 0.15s ease, transform 0.06s ease, box-shadow 0.15s ease;
-      }
-
-      .btn-next.enabled {
-        opacity: 1;
-        pointer-events: auto;
       }
 
       .btn-next:active {
@@ -370,13 +389,9 @@
           </div>
           <div class="plan-desc" id="planDesc"></div>
 
-          <ul class="features" id="planFeatures">
-            <!-- ימולא דינמית לפי החבילה -->
-          </ul>
+          <ul class="features" id="planFeatures"></ul>
 
-          <div class="badge-row" id="badgeRow">
-            <!-- באדג׳ים דינמיים -->
-          </div>
+          <div class="badge-row" id="badgeRow"></div>
 
           <div class="info-note">
             אפשר תמיד להתחיל בחבילה חינמית ולשדרג באירוע הבא, אבל החבילה
@@ -441,16 +456,24 @@
             <div class="warn">
               ⚠️ המערכת לא מחוברת לביט/PayBox, ולא בודקת אוטומטית אם שולם.
               <br />
-              אתה סומך על עצמך/על הלקוח שיבצע תשלום ורק אז ממשיכים ליצירת האירוע.
+              ההמשך נעול ע"י <strong>קוד אישור תשלום</strong> שרק אתה נותן אחרי
+              שאתה רואה שהכסף נכנס.
             </div>
           </div>
 
-          <div id="confirmContainer" class="confirm-row">
-            <input type="checkbox" id="confirmPaid" />
-            <label for="confirmPaid">
-              אני מאשר/ת שביצעתי תשלום עבור החבילה שבחרתי, ואמשיך עכשיו ליצירת
-              האירוע במערכת InvitePro.
-            </label>
+          <!-- שורת קוד אישור -->
+          <div id="codeRow" class="code-row">
+            <span class="code-label">קוד אישור תשלום</span>
+            <input
+              id="approvalCode"
+              class="code-input"
+              placeholder="הכנס/י כאן את קוד האישור שקיבלת מהמארח"
+            />
+            <div class="code-hint">
+              אחרי שהתשלום בוצע ואתה (המארח) ראית שהכסף נכנס, אתה נותן ללקוח קוד
+              אישור, והוא מזין אותו כאן כדי להמשיך.
+            </div>
+            <div id="codeError" class="code-error"></div>
           </div>
 
           <button class="btn-next" id="nextBtn" type="button">
@@ -458,8 +481,8 @@
           </button>
 
           <div class="info-note" id="underBtnNote">
-            אחרי לחיצה, תעבור/י ל־Event Builder עם החבילה שנבחרה, ולא יהיה צורך
-            לחזור לדף זה לאותו אירוע.
+            אחרי לחיצה, תעבור/י ל־Event Builder עם החבילה שנבחרה. בחבילות בתשלום
+            חייב להיות קוד אישור תקין.
           </div>
         </section>
       </section>
@@ -471,6 +494,10 @@
     </main>
 
     <script>
+      // 🔐 כאן מגדירים את קוד האישור לכל החבילות בתשלום
+      // אפשר לשנות למשהו אחר אם תרצה
+      const APPROVAL_CODE = "584525204";
+
       const params = new URLSearchParams(location.search);
       let tier = params.get("tier") || "basic";
 
@@ -539,23 +566,23 @@
       const payTitleEl = document.getElementById("payTitle");
       const freeSection = document.getElementById("freeSection");
       const paidSection = document.getElementById("paidSection");
-      const confirmContainer = document.getElementById("confirmContainer");
-      const confirmPaid = document.getElementById("confirmPaid");
-      const nextBtn = document.getElementById("nextBtn");
       const subtitleEl = document.getElementById("subtitle");
       const underBtnNote = document.getElementById("underBtnNote");
       const payboxLink = document.getElementById("payboxLink");
+      const codeRow = document.getElementById("codeRow");
+      const approvalCodeInput = document.getElementById("approvalCode");
+      const codeError = document.getElementById("codeError");
+      const nextBtn = document.getElementById("nextBtn");
 
       // מילוי פרטי החבילה
       planNameEl.textContent = data.name;
       planPriceEl.textContent = data.price;
       planDescEl.textContent = data.desc;
 
-      // תיאור למעלה
       subtitleEl.textContent =
         tier === "free"
-          ? "בחרת חבילת Free (חינם). אין צורך בתשלום, אפשר להמשיך ישר ליצירת האירוע."
-          : "בחרת חבילה בתשלום. מבצעים תשלום ואז מאשרים שממשיכים ליצירת האירוע.";
+          ? "בחרת חבילת Free (חינם). אין צורך בתשלום ואין צורך בקוד אישור – אפשר להמשיך ישר ליצירת האירוע."
+          : "בחרת חבילה בתשלום. מבצעים תשלום (ביט/PayBox/העברה), מקבלים ממך קוד אישור, ורק אז ממשיכים ליצירת האירוע.";
 
       // רשימת פיצ׳רים
       planFeaturesEl.innerHTML = "";
@@ -589,24 +616,16 @@
         payTitleEl.textContent = "חבילה חינמית – אין צורך בתשלום";
         freeSection.classList.remove("hidden");
         paidSection.classList.add("hidden");
-        confirmContainer.classList.add("hidden");
-
-        // אין צורך באישור – מאפשרים מעבר מיד
-        nextBtn.classList.add("enabled");
-        nextBtn.style.opacity = 1;
-        nextBtn.style.pointerEvents = "auto";
+        codeRow.classList.add("hidden");
         underBtnNote.textContent =
-          "אין תשלום בחבילה זו. בלחיצה תמשיך/י ישירות ליצירת האירוע ב־Event Builder.";
+          "אין תשלום ואין קוד אישור בחבילה זו. בלחיצה תמשיך/י ישירות ליצירת האירוע ב־Event Builder.";
       } else {
         payTitleEl.textContent = "💳 ביצוע התשלום לחבילה זו";
         freeSection.classList.add("hidden");
         paidSection.classList.remove("hidden");
-        confirmContainer.classList.remove("hidden");
-        nextBtn.classList.remove("enabled");
-        nextBtn.style.opacity = 0.35;
-        nextBtn.style.pointerEvents = "none";
+        codeRow.classList.remove("hidden");
         underBtnNote.textContent =
-          "אחרי שסימנת ששילמת, תוכל/י להמשיך ל־Event Builder עם החבילה שנבחרה.";
+          "לאחר הזנת קוד אישור תקין, תוכל/י להמשיך ל־Event Builder עם החבילה שנבחרה.";
       }
 
       // קישור PayBox – כאן אפשר לשים קישור אמיתי לכל חבילה
@@ -621,28 +640,25 @@
         payboxLink.href = href;
       }
 
-      // צ'קבוקס – מפעיל/מכבה את הכפתור
-      confirmPaid.addEventListener("change", () => {
-        if (confirmPaid.checked || tier === "free") {
-          nextBtn.classList.add("enabled");
-          nextBtn.style.opacity = 1;
-          nextBtn.style.pointerEvents = "auto";
-        } else {
-          nextBtn.classList.remove("enabled");
-          nextBtn.style.opacity = 0.35;
-          nextBtn.style.pointerEvents = "none";
-        }
+      // ניקוי הודעת שגיאה כשמתחילים להקליד
+      approvalCodeInput.addEventListener("input", () => {
+        codeError.style.display = "none";
+        codeError.textContent = "";
       });
 
       // מעבר ליצירת אירוע
       nextBtn.addEventListener("click", () => {
-        if (
-          tier !== "free" &&
-          (!confirmPaid || (confirmPaid && !confirmPaid.checked))
-        ) {
-          return;
+        if (tier !== "free") {
+          const code = approvalCodeInput.value.trim();
+          if (code !== APPROVAL_CODE) {
+            codeError.textContent =
+              "קוד האישור שגוי. אם ביצעת תשלום, פנה למארח לקבלת הקוד הנכון.";
+            codeError.style.display = "block";
+            return;
+          }
         }
-        // עובר ל-Event Builder עם החבילה שסומנה + דגל paid=ok
+
+        // אם הגענו לכאן – או שזה Free, או שהקוד נכון
         location.href = `event-builder.html?tier=${tier}&paid=ok`;
       });
     </script>
